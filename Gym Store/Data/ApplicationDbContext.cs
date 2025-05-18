@@ -32,11 +32,11 @@ namespace Gym_Store.Data
                 new Product
                 {
                     Id = 1,
-                    Name = "Optimum Nutrition Gold Standard 100% Whey French Vanilla",
+                    Name = "Optimum Nutrition Gold Standard 100% Whey - French Vanilla",
                     CategoryId = 1,
                     Price = 98.95m,
                     Quantity = "2.27 kg",
-                    ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey.jpg"
+                    ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg"
                 },
                 new Product
                 {
@@ -181,6 +181,33 @@ namespace Gym_Store.Data
                 Price = 39.96m,
                 Quantity = "12x 58g",
                 ImageUrl = "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg"
+                },
+                new Product
+                {
+                Id = 18,
+                Name = "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream",
+                CategoryId = 1,
+                Price = 98.95m,
+                Quantity = "2.27 kg",
+                ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg"
+                },
+                new Product
+                {
+                    Id = 19,
+                    Name = "Ghost Whey Protein - Coffee Ice Cream",
+                    CategoryId = 1,
+                    Price = 89.00m,
+                    Quantity = "2.27 kg",
+                    ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg"
+                },
+                new Product
+                {
+                    Id = 20,
+                    Name = "Ghost Whey Protein - Marshmallow",
+                    CategoryId = 1,
+                    Price = 89.00m,
+                    Quantity = "2.27 kg",
+                    ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg"
                 }
             );
         }

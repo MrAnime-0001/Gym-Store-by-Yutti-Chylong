@@ -210,7 +210,7 @@ namespace Gym_Store.Migrations
                 columns: new[] { "Id", "CategoryId", "ImageUrl", "Name", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { 1, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey.jpg", "Optimum Nutrition Gold Standard 100% Whey French Vanilla", 98.95m, "2.27 kg" },
+                    { 1, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg", "Optimum Nutrition Gold Standard 100% Whey - French Vanilla", 98.95m, "2.27 kg" },
                     { 2, 1, "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg", "Myprotein Impact Whey Isolate", 70.50m, "1 kg" },
                     { 3, 2, "/Gym_Store/Images/INC Creatine Monohydrate.jpg", "INC Creatine Monohydrate", 39.95m, "500 g" },
                     { 4, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg", "EHP Labs Pride Pre-Workout Blue Slushie", 79.95m, "40 Serves" },
@@ -226,7 +226,10 @@ namespace Gym_Store.Migrations
                     { 14, 4, "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg", "Chief Collagen Bar  – Double Chocolate", 63.00m, "12x 60g" },
                     { 15, 4, "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg", "Grenade Protein Bar - Fudge Up", 59.95m, "12 x 60 G" },
                     { 16, 4, "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg", "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge", 34.95m, "12x 60g" },
-                    { 17, 4, "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg", "Musashi Protein + Energy Bars - Banana Bread", 39.96m, "12x 58g" }
+                    { 17, 4, "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg", "Musashi Protein + Energy Bars - Banana Bread", 39.96m, "12x 58g" },
+                    { 18, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg", "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream", 98.95m, "2.27 kg" },
+                    { 19, 1, "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg", "Ghost Whey Protein - Coffee Ice Cream", 89.00m, "2.27 kg" },
+                    { 20, 1, "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg", "Ghost Whey Protein - Marshmallow", 89.00m, "2.27 kg" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250518155419_InitialMigration")]
+    [Migration("20250518163141_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -102,8 +102,8 @@ namespace Gym_Store.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey.jpg",
-                            Name = "Optimum Nutrition Gold Standard 100% Whey French Vanilla",
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg",
+                            Name = "Optimum Nutrition Gold Standard 100% Whey - French Vanilla",
                             Price = 98.95m,
                             Quantity = "2.27 kg"
                         },
@@ -250,6 +250,33 @@ namespace Gym_Store.Migrations
                             Name = "Musashi Protein + Energy Bars - Banana Bread",
                             Price = 39.96m,
                             Quantity = "12x 58g"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg",
+                            Name = "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream",
+                            Price = 98.95m,
+                            Quantity = "2.27 kg"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg",
+                            Name = "Ghost Whey Protein - Coffee Ice Cream",
+                            Price = 89.00m,
+                            Quantity = "2.27 kg"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg",
+                            Name = "Ghost Whey Protein - Marshmallow",
+                            Price = 89.00m,
+                            Quantity = "2.27 kg"
                         });
                 });
 

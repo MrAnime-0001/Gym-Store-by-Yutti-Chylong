@@ -29,6 +29,12 @@
     <Content Update="wwwroot\Gym_Store\Images - Back Up\EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Ghost Whey Protein - Coffee Ice Cream.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Ghost Whey Protein - Marshmallow.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Grenade Protein Bar - Fudge Up.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -59,7 +65,10 @@
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Myprotein Impact Whey Isolate.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard 100%25 Whey.jpg">
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard 100%25 Whey - Cookies &amp; Cream.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg">
@@ -78,6 +87,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Ghost Whey Protein - Coffee Ice Cream.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Ghost Whey Protein - Marshmallow.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\Grenade Protein Bar - Fudge Up.jpg">
@@ -110,7 +125,10 @@
     <Content Update="wwwroot\Gym_Store\Images\Myprotein Impact Whey Isolate.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100%25 Whey.jpg">
+    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100%25 Whey - Cookies &amp; Cream.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg">
