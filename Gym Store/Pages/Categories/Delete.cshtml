@@ -1,0 +1,70 @@
+﻿@page
+@model Gym_Store.Pages.Categories.DeleteModel
+
+<form method="post">
+    <input asp-for="Category.Id" type="hidden" />
+
+    <div class="border p-4 mt-4 bg-light">
+        <div class="row pb-2">
+            <h2 class="text-custom py-2">Delete Category</h2>
+            <hr />
+        </div>
+
+        <!-- Category Name -->
+        <div class="mb-3 row">
+            <label asp-for="Category.Name" class="col-form-label"></label>
+            <input asp-for="Category.Name" class="form-control custom-input" disabled />
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-md-3 mb-2">
+                <button type="submit" class="btn btn-danger form-control btn-custom">Delete</button>
+            </div>
+            <div class="col-6 col-md-3 mb-2">
+                <a asp-page="/Categories/Index" class="btn btn-secondary form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Form background color */
+    .bg-light {
+        background-color: #fff8e1;
+    }
+
+    /* Section title color */
+    h2.text-custom {
+        color: #ff7043;
+    }
+
+    /* Input fields styling */
+    .custom-input {
+        border-radius: 20px;
+        border: 1px solid #ff7043;
+        padding: 0.75rem;
+        background-color: #f1f1f1;
+    }
+
+        /* Disabled inputs slightly dimmed */
+        .custom-input[disabled] {
+            opacity: 0.7;
+        }
+
+    /* Delete button matches custom button styling */
+    .btn-custom {
+        background-color: #ff7043;
+        border-color: #ff7043;
+        border-radius: 20px;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
+</style>

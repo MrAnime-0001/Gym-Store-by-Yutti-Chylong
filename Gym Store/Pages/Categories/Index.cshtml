@@ -1,0 +1,95 @@
+﻿@page
+@model Gym_Store.Pages.Categories.IndexModel
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-page="/Categories/Create" class="btn btn-custom">
+                <i class="bi bi-plus-circle"></i> Create New Category
+            </a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-custom">
+            <tr>
+                <th>Category Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.CategoryList != null && Model.CategoryList.Any())
+            {
+                @foreach (var category in Model.CategoryList.OrderBy(c => c.Name))
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-page="/Categories/Edit" asp-route-id="@category.Id" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a asp-page="/Categories/Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" class="text-center text-danger">No categories available</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+    }
+
+    .container h2 {
+        color: #ff7043 !important;
+    }
+
+    .btn-custom {
+        background-color: #ff7043;
+        border-color: #ff7043;
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
+
+    .thead-custom {
+        background-color: #ffe0b2;
+        color: #3e2723;
+    }
+
+    table.table-bordered {
+        border-color: #ff7043;
+    }
+
+        table.table-bordered th, table.table-bordered td {
+            border-color: #ff7043;
+        }
+
+    table.table-striped tbody tr:nth-child(odd) {
+        background-color: #fff3e0;
+    }
+
+    table.table-striped tbody tr:nth-child(even) {
+        background-color: #ffecb3;
+    }
+</style>

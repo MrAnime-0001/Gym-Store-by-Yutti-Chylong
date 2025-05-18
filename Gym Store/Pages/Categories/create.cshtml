@@ -1,0 +1,72 @@
+﻿@page
+@model Gym_Store.Pages.Categories.CreateModel
+
+<form method="post">
+    <div class="border p-4 mt-4 bg-light">
+        <div class="row pb-2">
+            <h2 class="text-custom py-2">Create Category</h2>
+            <hr />
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3 row">
+            <label asp-for="Category.Name" class="col-form-label"></label>
+            <input asp-for="Category.Name" class="form-control custom-input" />
+            <span asp-validation-for="Category.Name" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-custom form-control">Create</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-page="/Categories/Index" class="btn btn-secondary border form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+    }
+
+    .custom-input {
+        border-radius: 20px;
+        border: 1px solid #ff7043;
+        padding: 0.75rem;
+    }
+
+        .custom-input:focus {
+            border-color: #ff7043;
+            box-shadow: 0 0 0 0.2rem rgba(255, 112, 67, 0.25);
+        }
+
+    h2.text-custom {
+        color: #ff7043;
+    }
+
+    .btn-custom {
+        background-color: #ff7043;
+        border-color: #ff7043;
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
+
+    .bg-light {
+        background-color: #fff8e1;
+    }
+</style>
