@@ -1,7 +1,9 @@
 using Gym_Store.Data;
 using Gym_Store.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gym_Store.Pages
 {
@@ -9,7 +11,7 @@ namespace Gym_Store.Pages
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public List<Product> ProductList { get; set; }
+        public Dictionary<string, List<Product>> ProductsByCategory { get; set; }
 
         public IndexModel(ApplicationDbContext dbContext)
         {
@@ -18,7 +20,13 @@ namespace Gym_Store.Pages
 
         public void OnGet()
         {
-            ProductList = _dbContext.Products.ToList();
+            var productsWithCategory = _dbContext.Products
+                .Include(p => p.Category) // Include the navigation property
+                .ToList();
+
+            ProductsByCategory = productsWithCategory
+                .GroupBy(p => p.Category.Name)
+                .ToDictionary(g => g.Key, g => g.ToList());
         }
     }
 }

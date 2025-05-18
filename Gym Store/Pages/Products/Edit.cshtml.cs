@@ -1,9 +1,10 @@
 using Gym_Store.Data;
 using Gym_Store.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gym_Store.Pages.Products
 {
@@ -12,6 +13,8 @@ namespace Gym_Store.Pages.Products
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        public List<SelectListItem> CategoryList { get; set; }
+
 
         public Product Product { get; set; }
 
@@ -31,6 +34,14 @@ namespace Gym_Store.Pages.Products
             {
                 return NotFound();
             }
+
+            CategoryList = _dbContext.Categories
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).ToList();
+
             return Page();
         }
 
@@ -38,6 +49,13 @@ namespace Gym_Store.Pages.Products
         {
             if (!ModelState.IsValid)
             {
+                CategoryList = _dbContext.Categories
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString()
+                    }).ToList();
+
                 return Page();
             }
 
@@ -47,7 +65,6 @@ namespace Gym_Store.Pages.Products
                 return NotFound();
             }
 
-            // Upload new image if provided
             if (ImageFile != null)
             {
                 var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Gym_Store", "Images");
@@ -64,11 +81,10 @@ namespace Gym_Store.Pages.Products
                 productFromDb.ImageUrl = $"/Gym_Store/Images/{fileName}";
             }
 
-            // Update other fields
             productFromDb.Name = Product.Name;
-            productFromDb.Type = Product.Type;
             productFromDb.Price = Product.Price;
             productFromDb.Quantity = Product.Quantity;
+            productFromDb.CategoryId = Product.CategoryId;
 
             _dbContext.SaveChanges();
             TempData["success"] = "Product updated successfully!";

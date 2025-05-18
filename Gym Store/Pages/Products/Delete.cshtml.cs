@@ -3,6 +3,7 @@ using Gym_Store.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.IO;
 
 namespace Gym_Store.Pages.Products
@@ -24,11 +25,15 @@ namespace Gym_Store.Pages.Products
         // GET: Load the product to confirm deletion
         public IActionResult OnGet(int id)
         {
-            Product = _dbContext.Products.Find(id);
+            Product = _dbContext.Products
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
+
             if (Product == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 

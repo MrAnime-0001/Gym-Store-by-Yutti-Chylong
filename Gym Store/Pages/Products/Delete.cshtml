@@ -16,10 +16,10 @@
             <input asp-for="Product.Name" class="form-control custom-input" disabled />
         </div>
 
-        <!-- Product Type -->
+        <!-- Product Category -->
         <div class="mb-3 row">
-            <label asp-for="Product.Type" class="col-form-label"></label>
-            <input asp-for="Product.Type" class="form-control custom-input" disabled />
+            <label class="col-form-label">Category</label>
+            <input value="@Model.Product.Category?.Name" class="form-control custom-input" disabled />
         </div>
 
         <!-- Product Price -->

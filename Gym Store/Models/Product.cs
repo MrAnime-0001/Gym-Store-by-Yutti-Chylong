@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gym_Store.Models
 {
@@ -14,9 +15,12 @@ namespace Gym_Store.Models
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        [DisplayName("Product Type")]
-        public string Type { get; set; }
+        [DisplayName("Category")]
+        public int CategoryId { get; set; } // Foreign Key
+
+        [ForeignKey("CategoryId")]
+        [DisplayName("Product Category")]
+        public Category Category { get; set; } // Navigation Property
 
         [Required]
         [Range(0.01, 10000, ErrorMessage = "Please enter a valid price between 0.01 and 10000")]

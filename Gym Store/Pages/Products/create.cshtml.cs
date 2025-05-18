@@ -2,6 +2,11 @@ using Gym_Store.Data;
 using Gym_Store.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Gym_Store.Pages.Products
 {
@@ -12,6 +17,7 @@ namespace Gym_Store.Pages.Products
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public Product Product { get; set; }
+        public List<SelectListItem> CategoryList { get; set; }
 
         public CreateModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
@@ -21,6 +27,13 @@ namespace Gym_Store.Pages.Products
 
         public void OnGet()
         {
+            CategoryList = _db.Categories
+                              .Select(c => new SelectListItem
+                              {
+                                  Text = c.Name,
+                                  Value = c.Id.ToString()
+                              }).ToList();
+
             Product = new Product();
         }
 
@@ -28,6 +41,13 @@ namespace Gym_Store.Pages.Products
         {
             if (!ModelState.IsValid)
             {
+                CategoryList = _db.Categories
+                                  .Select(c => new SelectListItem
+                                  {
+                                      Text = c.Name,
+                                      Value = c.Id.ToString()
+                                  }).ToList();
+
                 return Page();
             }
 

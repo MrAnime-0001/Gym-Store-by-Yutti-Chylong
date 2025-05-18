@@ -19,7 +19,7 @@
             <tr>
                 <th>Image</th>
                 <th>Name</th>
-                <th>Type</th>
+                <th>Category</th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Actions</th>
@@ -38,10 +38,9 @@
                             }
                         </td>
                         <td>@obj.Name</td>
-                        <td>@obj.Type</td>
+                        <td>@obj.Category?.Name</td>
                         <td>@obj.Price.ToString("C")</td>
                         <td>@obj.Quantity</td>
-
                         <td>
                             <div class="btn-group" role="group">
                                 <a asp-page="/Products/Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
@@ -58,7 +57,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="text-center text-danger">No products available</td>
+                    <td colspan="6" class="text-center text-danger">No products available</td>
                 </tr>
             }
         </tbody>

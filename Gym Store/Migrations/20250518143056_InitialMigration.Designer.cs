@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250508010432_InitialMigration")]
+    [Migration("20250518143056_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -25,6 +25,41 @@ namespace Gym_Store.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Gym_Store.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Protein Powder"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Creatine Supplement"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Pre-Workout"
+                        });
+                });
+
             modelBuilder.Entity("Gym_Store.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +67,9 @@ namespace Gym_Store.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -48,12 +86,9 @@ namespace Gym_Store.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
 
@@ -61,74 +96,74 @@ namespace Gym_Store.Migrations
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey.jpg",
                             Name = "Optimum Nutrition Gold Standard 100% Whey French Vanilla",
                             Price = 98.95m,
-                            Quantity = "2.27 kg",
-                            Type = "Protein Powder"
+                            Quantity = "2.27 kg"
                         },
                         new
                         {
                             Id = 2,
+                            CategoryId = 1,
                             ImageUrl = "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg",
                             Name = "Myprotein Impact Whey Isolate",
                             Price = 70.50m,
-                            Quantity = "1 kg",
-                            Type = "Protein Powder"
+                            Quantity = "1 kg"
                         },
                         new
                         {
                             Id = 3,
+                            CategoryId = 2,
                             ImageUrl = "/Gym_Store/Images/INC Creatine Monohydrate.jpg",
                             Name = "INC Creatine Monohydrate",
                             Price = 39.95m,
-                            Quantity = "500 g",
-                            Type = "Creatine Supplement"
+                            Quantity = "500 g"
                         },
                         new
                         {
                             Id = 4,
+                            CategoryId = 3,
                             ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg",
                             Name = "EHP Labs Pride Pre-Workout Blue Slushie",
                             Price = 79.95m,
-                            Quantity = "40 Serves",
-                            Type = "Pre-Workout"
+                            Quantity = "40 Serves"
                         },
                         new
                         {
                             Id = 5,
+                            CategoryId = 3,
                             ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg",
                             Name = "EHP Labs Pride Pre-Workout Raspberry Twizzle",
                             Price = 79.95m,
-                            Quantity = "40 Serves",
-                            Type = "Pre-Workout"
+                            Quantity = "40 Serves"
                         },
                         new
                         {
                             Id = 6,
+                            CategoryId = 3,
                             ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg",
                             Name = "Optimum Nutrition Gold Standard Pre-Workout Green Apple",
                             Price = 39.90m,
-                            Quantity = "30 Serves",
-                            Type = "Pre-Workout"
+                            Quantity = "30 Serves"
                         },
                         new
                         {
                             Id = 7,
+                            CategoryId = 3,
                             ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg",
                             Name = "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade",
                             Price = 39.90m,
-                            Quantity = "30 Serves",
-                            Type = "Pre-Workout"
+                            Quantity = "30 Serves"
                         },
                         new
                         {
                             Id = 8,
+                            CategoryId = 3,
                             ImageUrl = "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg",
                             Name = "Musashi Pre-Workout Purple Grape",
                             Price = 29.99m,
-                            Quantity = "225 g",
-                            Type = "Pre-Workout"
+                            Quantity = "225 g"
                         });
                 });
 
@@ -332,6 +367,17 @@ namespace Gym_Store.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Gym_Store.Models.Product", b =>
+                {
+                    b.HasOne("Gym_Store.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

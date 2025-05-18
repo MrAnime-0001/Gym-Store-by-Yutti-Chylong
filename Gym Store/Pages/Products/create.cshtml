@@ -17,9 +17,12 @@
         </div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.Type" class="col-form-label"></label>
-            <input asp-for="Product.Type" class="form-control custom-input" />
-            <span asp-validation-for="Product.Type" class="text-danger"></span>
+            <label asp-for="Product.CategoryId" class="col-form-label"></label>
+            <select asp-for="Product.CategoryId" class="form-control custom-input"
+                    asp-items="Model.CategoryList">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">

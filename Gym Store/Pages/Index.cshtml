@@ -10,37 +10,45 @@
         background: linear-gradient(to right, #e0f7fa, #b2ebf2);
     }
 
-    /* Card: warm light orange */
-    .product-card {
-        border: none;
-        border-radius: 1rem;
-        overflow: hidden;
-        background-color: #fff3e0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Category header */
+    h2.category-title {
+        color: #ff7043;
+        border-bottom: 2px solid #ff7043;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
 
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Image container: neutral warm grey to pop the image */
-    .product-img-container {
-        height: 200px;
-        background: #ffe0b2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .product-card .card-body {
+    /* Table styling */
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
         background-color: #fff8e1;
-        color: #3e2723;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
     }
 
-    .product-card .card-footer {
-        background-color: #ffe0b2;
+        .product-table th,
+        .product-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ffe0b2;
+        }
+
+        .product-table th {
+            background-color: #ffe0b2;
+            color: #3e2723;
+        }
+
+        .product-table td {
+            background-color: #fffde7;
+            color: #3e2723;
+        }
+
+    /* Product image */
+    .product-img {
+        max-height: 80px;
+        object-fit: contain;
     }
 
     /* Purchase button: deep orange */
@@ -48,51 +56,58 @@
         background-color: #ff7043;
         border-color: #ff7043;
         border-radius: 20px;
-        padding: 0.5rem 1.5rem;
+        padding: 0.4rem 1rem;
         transition: background-color 0.2s ease;
-    }
-    .btn-success:hover {
-        background-color: #f4511e;
-        border-color: #f4511e;
+        color: white;
     }
 
-    /* Heading accent: deep cyan */
+        .btn-success:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
+
+    /* Main heading accent */
     h1.page-title {
         color: #006064;
     }
 </style>
 
-<h1 class="page-title text-center mb-5">🌟 Our Featured Products 🌟</h1>
+<h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
 
 <div class="container">
-    <div class="row">
-        @foreach (var product in Model.ProductList)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card product-card">
-                    <div class="product-img-container">
-                        <img src="@product.ImageUrl"
-                             alt="@product.Name"
-                             class="img-fluid"
-                             style="max-height: 100%; max-width: 100%; object-fit: contain;" />
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">@product.Name</h5>
-                        <p class="card-text mb-2">
-                            <strong>Price:</strong> $@product.Price <br />
-                            <strong>Quantity:</strong> @product.Quantity <br />
-                            <strong>Type:</strong> @product.Type
-                        </p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">
-                            Purchase
-                        </button>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+    @foreach (var categoryGroup in Model.ProductsByCategory)
+    {
+        <h2 class="category-title">@categoryGroup.Key</h2>
+        <div class="table-responsive mb-5">
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in categoryGroup.Value)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
+                            </td>
+                            <td>@product.Name</td>
+                            <td>$@product.Price</td>
+                            <td>@product.Quantity</td>
+                            <td>
+                                <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 
 @section Scripts {
