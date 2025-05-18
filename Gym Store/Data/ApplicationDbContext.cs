@@ -23,7 +23,8 @@ namespace Gym_Store.Data
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Protein Powder" },
                 new Category { Id = 2, Name = "Creatine Supplement" },
-                new Category { Id = 3, Name = "Pre-Workout" }
+                new Category { Id = 3, Name = "Pre-Workout" },
+                new Category { Id = 4, Name = "Protein Bars" }
             );
 
             // ✅ Seed Products with CategoryId instead of Type
@@ -99,6 +100,87 @@ namespace Gym_Store.Data
                     Price = 29.99m,
                     Quantity = "225 g",
                     ImageUrl = "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg"
+                },
+                new Product
+                {
+                    Id = 9,
+                    Name = "Optimum Nutrition Micronised Creatine Powder",
+                    CategoryId = 2,
+                    Price = 39.95m,
+                    Quantity = "300 G",
+                    ImageUrl = "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg"
+                },
+                new Product
+                {
+                    Id = 10,
+                    Name = "Musashi 100% Creatine",
+                    CategoryId = 2,
+                    Price = 32.95m,
+                    Quantity = "350 G",
+                    ImageUrl = "/Gym_Store/Images/Musashi 100% Creatine.jpg"
+                },
+                new Product
+                {
+                    Id = 11,
+                    Name = "Musashi Shred & Burn Protein – Vanilla Milkshake",
+                    CategoryId = 1,
+                    Price = 110.46m,
+                    Quantity = "2 kg",
+                    ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg"
+                },
+                new Product
+                {
+                    Id = 12,
+                    Name = "Musashi Shred & Burn Protein – Chocolate Milkshake",
+                    CategoryId = 1,
+                    Price = 110.46m,
+                    Quantity = "2 kg",
+                    ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg"
+                },
+                new Product
+                {
+                    Id = 13,
+                    Name = "Grenade Protein Bar - Oreo",
+                    CategoryId = 4,
+                    Price = 59.95m,
+                    Quantity = "12 x 60 G",
+                    ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg"
+                },
+                new Product
+                {
+                Id = 14,
+                    Name = "Chief Collagen Bar  – Double Chocolate",
+                    CategoryId = 4,
+                    Price = 63.00m,
+                    Quantity = "12x 60g",
+                    ImageUrl = "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg"
+                },
+                new Product
+                {
+                    Id = 15,
+                    Name = "Grenade Protein Bar - Fudge Up",
+                    CategoryId = 4,
+                    Price = 59.95m,
+                    Quantity = "12 x 60 G",
+                    ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg"
+                },
+                new Product
+                {
+                Id = 16,
+                    Name = "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge",
+                    CategoryId = 4,
+                    Price = 34.95m,
+                    Quantity = "12x 60g",
+                    ImageUrl = "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg"
+                },
+                new Product
+                {
+                Id = 17,
+                Name = "Musashi Protein + Energy Bars - Banana Bread",
+                CategoryId = 4,
+                Price = 39.96m,
+                Quantity = "12x 58g",
+                ImageUrl = "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg"
                 }
             );
         }

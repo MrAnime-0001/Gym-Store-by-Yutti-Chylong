@@ -201,7 +201,8 @@ namespace Gym_Store.Migrations
                 {
                     { 1, "Protein Powder" },
                     { 2, "Creatine Supplement" },
-                    { 3, "Pre-Workout" }
+                    { 3, "Pre-Workout" },
+                    { 4, "Protein Bars" }
                 });
 
             migrationBuilder.InsertData(
@@ -216,7 +217,16 @@ namespace Gym_Store.Migrations
                     { 5, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg", "EHP Labs Pride Pre-Workout Raspberry Twizzle", 79.95m, "40 Serves" },
                     { 6, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg", "Optimum Nutrition Gold Standard Pre-Workout Green Apple", 39.90m, "30 Serves" },
                     { 7, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg", "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade", 39.90m, "30 Serves" },
-                    { 8, 3, "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg", "Musashi Pre-Workout Purple Grape", 29.99m, "225 g" }
+                    { 8, 3, "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg", "Musashi Pre-Workout Purple Grape", 29.99m, "225 g" },
+                    { 9, 2, "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg", "Optimum Nutrition Micronised Creatine Powder", 39.95m, "300 G" },
+                    { 10, 2, "/Gym_Store/Images/Musashi 100% Creatine.jpg", "Musashi 100% Creatine", 32.95m, "350 G" },
+                    { 11, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg", "Musashi Shred & Burn Protein – Vanilla Milkshake", 110.46m, "2 kg" },
+                    { 12, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg", "Musashi Shred & Burn Protein – Chocolate Milkshake", 110.46m, "2 kg" },
+                    { 13, 4, "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg", "Grenade Protein Bar - Oreo", 59.95m, "12 x 60 G" },
+                    { 14, 4, "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg", "Chief Collagen Bar  – Double Chocolate", 63.00m, "12x 60g" },
+                    { 15, 4, "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg", "Grenade Protein Bar - Fudge Up", 59.95m, "12 x 60 G" },
+                    { 16, 4, "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg", "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge", 34.95m, "12x 60g" },
+                    { 17, 4, "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg", "Musashi Protein + Energy Bars - Banana Bread", 39.96m, "12x 58g" }
                 });
 
             migrationBuilder.CreateIndex(

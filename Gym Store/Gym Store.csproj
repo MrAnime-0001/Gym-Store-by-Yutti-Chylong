@@ -20,22 +20,46 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Chief Collagen Bar  – Double Chocolate.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\EHP Labs Pride Pre-Workout Blue Slushie.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Grenade Protein Bar - Fudge Up.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Grenade Protein Bar - Oreo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\INC Creatine Monohydrate.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Musashi 100%25 Creatine.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Musashi Pre-Workout Purple Grape.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Musashi Protein + Energy Bars - Banana Bread.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Musashi Shred &amp; Burn Protein – Chocolate Milkshake.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Musashi Shred &amp; Burn Protein – Vanilla Milkshake.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Myprotein Impact Whey Isolate.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard 100% Whey.jpg">
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard 100%25 Whey.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg">
@@ -44,16 +68,43 @@
     <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images - Back Up\Optimum Nutrition Micronised Creatine Powder.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Chief Collagen Bar  – Double Chocolate.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images\EHP Labs Pride Pre-Workout Blue Slushie.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Grenade Protein Bar - Fudge Up.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Grenade Protein Bar - Oreo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images\INC Creatine Monohydrate.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Musashi 100%25 Creatine.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Gym_Store\Images\Musashi Pre-Workout Purple Grape.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Musashi Protein + Energy Bars - Banana Bread.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Musashi Shred &amp; Burn Protein – Chocolate Milkshake.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Musashi Shred &amp; Burn Protein – Vanilla Milkshake.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\Myprotein Impact Whey Isolate.jpg">
@@ -66,6 +117,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Micronised Creatine Powder.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

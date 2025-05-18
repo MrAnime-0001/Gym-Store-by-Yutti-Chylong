@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250518143056_InitialMigration")]
+    [Migration("20250518155419_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -57,6 +57,11 @@ namespace Gym_Store.Migrations
                         {
                             Id = 3,
                             Name = "Pre-Workout"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Protein Bars"
                         });
                 });
 
@@ -164,6 +169,87 @@ namespace Gym_Store.Migrations
                             Name = "Musashi Pre-Workout Purple Grape",
                             Price = 29.99m,
                             Quantity = "225 g"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 2,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg",
+                            Name = "Optimum Nutrition Micronised Creatine Powder",
+                            Price = 39.95m,
+                            Quantity = "300 G"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 2,
+                            ImageUrl = "/Gym_Store/Images/Musashi 100% Creatine.jpg",
+                            Name = "Musashi 100% Creatine",
+                            Price = 32.95m,
+                            Quantity = "350 G"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg",
+                            Name = "Musashi Shred & Burn Protein – Vanilla Milkshake",
+                            Price = 110.46m,
+                            Quantity = "2 kg"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg",
+                            Name = "Musashi Shred & Burn Protein – Chocolate Milkshake",
+                            Price = 110.46m,
+                            Quantity = "2 kg"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg",
+                            Name = "Grenade Protein Bar - Oreo",
+                            Price = 59.95m,
+                            Quantity = "12 x 60 G"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg",
+                            Name = "Chief Collagen Bar  – Double Chocolate",
+                            Price = 63.00m,
+                            Quantity = "12x 60g"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg",
+                            Name = "Grenade Protein Bar - Fudge Up",
+                            Price = 59.95m,
+                            Quantity = "12 x 60 G"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg",
+                            Name = "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge",
+                            Price = 34.95m,
+                            Quantity = "12x 60g"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg",
+                            Name = "Musashi Protein + Energy Bars - Banana Bread",
+                            Price = 39.96m,
+                            Quantity = "12x 58g"
                         });
                 });
 
