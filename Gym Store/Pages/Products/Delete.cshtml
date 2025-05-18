@@ -22,16 +22,22 @@
             <input value="@Model.Product.Category?.Name" class="form-control custom-input" disabled />
         </div>
 
-        <!-- Product Price -->
-        <div class="mb-3 row">
-            <label asp-for="Product.Price" class="col-form-label"></label>
-            <input asp-for="Product.Price" class="form-control custom-input" disabled />
-        </div>
-
         <!-- Product Quantity -->
         <div class="mb-3 row">
             <label asp-for="Product.Quantity" class="col-form-label"></label>
             <input asp-for="Product.Quantity" class="form-control custom-input" disabled />
+        </div>
+
+        <!-- Product Serving Size -->
+        <div class="mb-3 row">
+            <label asp-for="Product.ServingSize" class="col-form-label"></label>
+            <input asp-for="Product.ServingSize" class="form-control custom-input" disabled />
+        </div>
+
+        <!-- Product Price -->
+        <div class="mb-3 row">
+            <label asp-for="Product.Price" class="col-form-label"></label>
+            <input asp-for="Product.Price" class="form-control custom-input" disabled />
         </div>
 
         <div class="row">
@@ -68,10 +74,10 @@
         background-color: #f1f1f1;
     }
 
-    /* Disabled inputs slightly dimmed */
-    .custom-input[disabled] {
-        opacity: 0.7;
-    }
+        /* Disabled inputs slightly dimmed */
+        .custom-input[disabled] {
+            opacity: 0.7;
+        }
 
     /* Delete button matches custom button styling */
     .btn-custom {
@@ -81,8 +87,8 @@
         color: white;
     }
 
-    .btn-custom:hover {
-        background-color: #f4511e;
-        border-color: #f4511e;
-    }
+        .btn-custom:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
 </style>

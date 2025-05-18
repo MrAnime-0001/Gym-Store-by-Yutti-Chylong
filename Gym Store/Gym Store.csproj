@@ -125,10 +125,10 @@
     <Content Update="wwwroot\Gym_Store\Images\Myprotein Impact Whey Isolate.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg">
+    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100%25 Whey - Cookies &amp; Cream.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100%25 Whey - Cookies &amp; Cream.jpg">
+    <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard 100%25 Whey - French Vanilla.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Gym_Store\Images\Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg">

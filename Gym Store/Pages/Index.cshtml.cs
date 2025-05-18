@@ -21,11 +21,11 @@ namespace Gym_Store.Pages
         public void OnGet()
         {
             var productsWithCategory = _dbContext.Products
-                .Include(p => p.Category) // Include the navigation property
+                .Include(p => p.Category) // Include category navigation property
                 .ToList();
 
             ProductsByCategory = productsWithCategory
-                .GroupBy(p => p.Category.Name)
+                .GroupBy(p => p.Category?.Name ?? "Uncategorized")
                 .ToDictionary(g => g.Key, g => g.ToList());
         }
     }

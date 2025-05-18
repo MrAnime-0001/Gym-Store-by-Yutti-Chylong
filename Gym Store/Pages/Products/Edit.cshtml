@@ -11,12 +11,14 @@
             <hr />
         </div>
 
-        <!-- Name, Type, Price, Quantity fields (unchanged) -->
+        <div asp-validation-summary="All" class="text-danger"></div>
+
         <div class="mb-3 row">
             <label asp-for="Product.Name" class="col-form-label"></label>
             <input asp-for="Product.Name" class="form-control custom-input" />
             <span asp-validation-for="Product.Name" class="text-danger"></span>
         </div>
+
         <div class="mb-3 row">
             <label asp-for="Product.CategoryId" class="col-form-label"></label>
             <select asp-for="Product.CategoryId" class="form-control custom-input" asp-items="Model.CategoryList">
@@ -24,28 +26,31 @@
             </select>
             <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
         </div>
-        <div class="mb-3 row">
-            <label asp-for="Product.Price" class="col-form-label"></label>
-            <input asp-for="Product.Price" class="form-control custom-input" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
+
         <div class="mb-3 row">
             <label asp-for="Product.Quantity" class="col-form-label"></label>
             <input asp-for="Product.Quantity" class="form-control custom-input" />
             <span asp-validation-for="Product.Quantity" class="text-danger"></span>
         </div>
 
-        <!-- Image Upload and URL -->
         <div class="mb-3 row">
-            <label asp-for="Product.ImageUrl" class="col-form-label"></label>
-            <div class="input-group">
-                <input asp-for="Product.ImageUrl" class="form-control custom-input" readonly />
-                <input type="file" name="ImageFile" id="ImageFile" class="form-control" />
-            </div>
-            <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+            <label asp-for="Product.ServingSize" class="col-form-label"></label>
+            <input asp-for="Product.ServingSize" class="form-control custom-input" />
+            <span asp-validation-for="Product.ServingSize" class="text-danger"></span>
         </div>
 
-        <!-- Buttons -->
+        <div class="mb-3 row">
+            <label asp-for="Product.Price" class="col-form-label"></label>
+            <input asp-for="Product.Price" class="form-control custom-input" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label">Upload New Image</label>
+            <input type="file" name="ImageFile" class="form-control custom-input" />
+            <small class="form-text text-muted">Current image: @Model.Product.ImageUrl</small>
+        </div>
+
         <div class="row">
             <div class="col-6 col-md-3 mb-2">
                 <button type="submit" class="btn btn-custom form-control">Update</button>
@@ -62,44 +67,24 @@
 }
 
 <style>
-    /* Form background color */
-    .bg-light {
-        background-color: #fff8e1;
-    }
-
-    /* Section title color */
-    h2.text-custom {
-        color: #ff7043;
-    }
-
-    /* Input fields styling */
-    .custom-input {
-        border-radius: 20px;
-        border: 1px solid #ff7043;
-        padding: 0.75rem;
-        background-color: #f1f1f1;
-    }
-
-        .custom-input:focus {
-            border-color: #ff7043;
-            box-shadow: 0 0 0 0.2rem rgba(255, 112, 67, 0.25);
-        }
-
-    /* Validation error color */
-    .text-danger {
-        color: #e57373;
-    }
-
-    /* Buttons */
     .btn-custom {
         background-color: #ff7043;
-        border-color: #ff7043;
-        border-radius: 20px;
         color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.2s ease;
     }
 
         .btn-custom:hover {
             background-color: #f4511e;
-            border-color: #f4511e;
         }
+
+    .text-custom {
+        color: #006064;
+    }
+
+    .custom-input {
+        border-radius: 10px;
+    }
 </style>

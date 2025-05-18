@@ -78,14 +78,15 @@ namespace Gym_Store.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Quantity")
-                        .IsRequired()
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServingSize")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -99,181 +100,201 @@ namespace Gym_Store.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg",
-                            Name = "Optimum Nutrition Gold Standard 100% Whey - French Vanilla",
-                            Price = 98.95m,
-                            Quantity = "2.27 kg"
+                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg",
+                            Name = "Ghost Whey Protein - Coffee Ice Cream",
+                            Price = 89.00m,
+                            Quantity = 6,
+                            ServingSize = "64 Serves"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg",
-                            Name = "Myprotein Impact Whey Isolate",
-                            Price = 70.50m,
-                            Quantity = "1 kg"
+                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg",
+                            Name = "Ghost Whey Protein - Marshmallow",
+                            Price = 89.00m,
+                            Quantity = 22,
+                            ServingSize = "64 Serves"
                         },
                         new
                         {
                             Id = 3,
-                            CategoryId = 2,
-                            ImageUrl = "/Gym_Store/Images/INC Creatine Monohydrate.jpg",
-                            Name = "INC Creatine Monohydrate",
-                            Price = 39.95m,
-                            Quantity = "500 g"
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg",
+                            Name = "Musashi Shred & Burn Protein – Chocolate Milkshake",
+                            Price = 110.46m,
+                            Quantity = 17,
+                            ServingSize = "58 Serves"
                         },
                         new
                         {
                             Id = 4,
-                            CategoryId = 3,
-                            ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg",
-                            Name = "EHP Labs Pride Pre-Workout Blue Slushie",
-                            Price = 79.95m,
-                            Quantity = "40 Serves"
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg",
+                            Name = "Musashi Shred & Burn Protein – Vanilla Milkshake",
+                            Price = 110.46m,
+                            Quantity = 21,
+                            ServingSize = "58 Serves"
                         },
                         new
                         {
                             Id = 5,
-                            CategoryId = 3,
-                            ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg",
-                            Name = "EHP Labs Pride Pre-Workout Raspberry Twizzle",
-                            Price = 79.95m,
-                            Quantity = "40 Serves"
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg",
+                            Name = "Myprotein Impact Whey Isolate",
+                            Price = 70.50m,
+                            Quantity = 15,
+                            ServingSize = "40 Serves"
                         },
                         new
                         {
                             Id = 6,
-                            CategoryId = 3,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg",
-                            Name = "Optimum Nutrition Gold Standard Pre-Workout Green Apple",
-                            Price = 39.90m,
-                            Quantity = "30 Serves"
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg",
+                            Name = "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream",
+                            Price = 98.95m,
+                            Quantity = 20,
+                            ServingSize = "29 Serves"
                         },
                         new
                         {
                             Id = 7,
-                            CategoryId = 3,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg",
-                            Name = "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade",
-                            Price = 39.90m,
-                            Quantity = "30 Serves"
+                            CategoryId = 1,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg",
+                            Name = "Optimum Nutrition Gold Standard 100% Whey - French Vanilla",
+                            Price = 98.95m,
+                            Quantity = 18,
+                            ServingSize = "29 Serves"
                         },
                         new
                         {
                             Id = 8,
-                            CategoryId = 3,
-                            ImageUrl = "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg",
-                            Name = "Musashi Pre-Workout Purple Grape",
-                            Price = 29.99m,
-                            Quantity = "225 g"
+                            CategoryId = 2,
+                            ImageUrl = "/Gym_Store/Images/INC Creatine Monohydrate.jpg",
+                            Name = "INC Creatine Monohydrate",
+                            Price = 39.95m,
+                            Quantity = 10,
+                            ServingSize = "100 Serves"
                         },
                         new
                         {
                             Id = 9,
                             CategoryId = 2,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg",
-                            Name = "Optimum Nutrition Micronised Creatine Powder",
-                            Price = 39.95m,
-                            Quantity = "300 G"
+                            ImageUrl = "/Gym_Store/Images/Musashi 100% Creatine.jpg",
+                            Name = "Musashi 100% Creatine",
+                            Price = 32.95m,
+                            Quantity = 7,
+                            ServingSize = "70 Serves"
                         },
                         new
                         {
                             Id = 10,
                             CategoryId = 2,
-                            ImageUrl = "/Gym_Store/Images/Musashi 100% Creatine.jpg",
-                            Name = "Musashi 100% Creatine",
-                            Price = 32.95m,
-                            Quantity = "350 G"
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg",
+                            Name = "Optimum Nutrition Micronised Creatine Powder",
+                            Price = 39.95m,
+                            Quantity = 20,
+                            ServingSize = "60 Serves"
                         },
                         new
                         {
                             Id = 11,
-                            CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg",
-                            Name = "Musashi Shred & Burn Protein – Vanilla Milkshake",
-                            Price = 110.46m,
-                            Quantity = "2 kg"
+                            CategoryId = 3,
+                            ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg",
+                            Name = "EHP Labs Pride Pre-Workout Blue Slushie",
+                            Price = 79.95m,
+                            Quantity = 14,
+                            ServingSize = "40 Serves"
                         },
                         new
                         {
                             Id = 12,
-                            CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg",
-                            Name = "Musashi Shred & Burn Protein – Chocolate Milkshake",
-                            Price = 110.46m,
-                            Quantity = "2 kg"
+                            CategoryId = 3,
+                            ImageUrl = "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg",
+                            Name = "EHP Labs Pride Pre-Workout Raspberry Twizzle",
+                            Price = 79.95m,
+                            Quantity = 19,
+                            ServingSize = "40 Serves"
                         },
                         new
                         {
                             Id = 13,
-                            CategoryId = 4,
-                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg",
-                            Name = "Grenade Protein Bar - Oreo",
-                            Price = 59.95m,
-                            Quantity = "12 x 60 G"
+                            CategoryId = 3,
+                            ImageUrl = "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg",
+                            Name = "Musashi Pre-Workout Purple Grape",
+                            Price = 29.99m,
+                            Quantity = 13,
+                            ServingSize = "25 Serves"
                         },
                         new
                         {
                             Id = 14,
-                            CategoryId = 4,
-                            ImageUrl = "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg",
-                            Name = "Chief Collagen Bar  – Double Chocolate",
-                            Price = 63.00m,
-                            Quantity = "12x 60g"
+                            CategoryId = 3,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg",
+                            Name = "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade",
+                            Price = 39.90m,
+                            Quantity = 16,
+                            ServingSize = "30 Serves"
                         },
                         new
                         {
                             Id = 15,
-                            CategoryId = 4,
-                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg",
-                            Name = "Grenade Protein Bar - Fudge Up",
-                            Price = 59.95m,
-                            Quantity = "12 x 60 G"
+                            CategoryId = 3,
+                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg",
+                            Name = "Optimum Nutrition Gold Standard Pre-Workout Green Apple",
+                            Price = 39.90m,
+                            Quantity = 11,
+                            ServingSize = "30 Serves"
                         },
                         new
                         {
                             Id = 16,
                             CategoryId = 4,
-                            ImageUrl = "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg",
-                            Name = "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge",
-                            Price = 34.95m,
-                            Quantity = "12x 60g"
+                            ImageUrl = "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg",
+                            Name = "Chief Collagen Bar  – Double Chocolate",
+                            Price = 63.00m,
+                            Quantity = 9,
+                            ServingSize = "12 x 60g"
                         },
                         new
                         {
                             Id = 17,
                             CategoryId = 4,
-                            ImageUrl = "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg",
-                            Name = "Musashi Protein + Energy Bars - Banana Bread",
-                            Price = 39.96m,
-                            Quantity = "12x 58g"
+                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg",
+                            Name = "Grenade Protein Bar - Fudge Up",
+                            Price = 59.95m,
+                            Quantity = 8,
+                            ServingSize = "12 x 60 G"
                         },
                         new
                         {
                             Id = 18,
-                            CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg",
-                            Name = "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream",
-                            Price = 98.95m,
-                            Quantity = "2.27 kg"
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg",
+                            Name = "Grenade Protein Bar - Oreo",
+                            Price = 59.95m,
+                            Quantity = 22,
+                            ServingSize = "12 x 60 G"
                         },
                         new
                         {
                             Id = 19,
-                            CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg",
-                            Name = "Ghost Whey Protein - Coffee Ice Cream",
-                            Price = 89.00m,
-                            Quantity = "2.27 kg"
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg",
+                            Name = "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge",
+                            Price = 34.95m,
+                            Quantity = 12,
+                            ServingSize = "12 x 60g"
                         },
                         new
                         {
                             Id = 20,
-                            CategoryId = 1,
-                            ImageUrl = "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg",
-                            Name = "Ghost Whey Protein - Marshmallow",
-                            Price = 89.00m,
-                            Quantity = "2.27 kg"
+                            CategoryId = 4,
+                            ImageUrl = "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg",
+                            Name = "Musashi Protein + Energy Bars - Banana Bread",
+                            Price = 39.96m,
+                            Quantity = 5,
+                            ServingSize = "12 x 58g"
                         });
                 });
 

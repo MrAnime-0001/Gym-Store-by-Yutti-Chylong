@@ -1,36 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gym_Store.Models
 {
     public class Product
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100)]
-        [DisplayName("Product Name")]
+        [Display(Name = "Product Name")]
         public string Name { get; set; }
 
         [Required]
-        [DisplayName("Category")]
-        public int CategoryId { get; set; } // Foreign Key
+        [Display(Name = "Product Category")]
+        public int CategoryId { get; set; }
 
-        [ForeignKey("CategoryId")]
-        [DisplayName("Product Category")]
-        public Category Category { get; set; } // Navigation Property
+        public Category Category { get; set; }
 
         [Required]
-        [Range(0.01, 10000, ErrorMessage = "Please enter a valid price between 0.01 and 10000")]
-        [DisplayName("Price (NZD)")]
+        [Display(Name = "Stock Level")]
+        [Range(0, int.MaxValue, ErrorMessage = "Stock level must be a positive number.")]
+        public int Quantity { get; set; }
+
+        [Display(Name = "Serving Size")]
+        public string? ServingSize { get; set; }
+
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public decimal Price { get; set; }
 
-        [Required]
-        public string Quantity { get; set; }
-
-        [DisplayName("Image URL")]
         public string? ImageUrl { get; set; }
     }
 }

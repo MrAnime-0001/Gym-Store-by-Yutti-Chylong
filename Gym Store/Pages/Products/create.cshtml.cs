@@ -1,5 +1,7 @@
 using Gym_Store.Data;
 using Gym_Store.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,15 +41,18 @@ namespace Gym_Store.Pages.Products
 
         public async Task<IActionResult> OnPostAsync(IFormFile? imageFile)
         {
+            if (Product.CategoryId == 0)
+            {
+                ModelState.AddModelError("Product.CategoryId", "Please select a category.");
+            }
+
             if (!ModelState.IsValid)
             {
-                CategoryList = _db.Categories
-                                  .Select(c => new SelectListItem
-                                  {
-                                      Text = c.Name,
-                                      Value = c.Id.ToString()
-                                  }).ToList();
-
+                CategoryList = _db.Categories.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).ToList();
                 return Page();
             }
 

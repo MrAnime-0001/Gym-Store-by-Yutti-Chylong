@@ -28,33 +28,33 @@
         overflow: hidden;
     }
 
-    .product-table th,
-    .product-table td {
-        padding: 1rem;
-        text-align: center;
-        border: 1px solid #ffe0b2;
-    }
+        .product-table th,
+        .product-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ffe0b2;
+        }
 
-    .product-table th {
-        background-color: #ffe0b2;
-        color: #3e2723;
-    }
+        .product-table th {
+            background-color: #ffe0b2;
+            color: #3e2723;
+        }
 
-    .product-table td {
-        background-color: #fffde7;
-        color: #3e2723;
-    }
+        .product-table td {
+            background-color: #fffde7;
+            color: #3e2723;
+        }
 
-    /* Hover effect on table rows */
-    .product-table tbody tr {
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+        /* Hover effect on table rows */
+        .product-table tbody tr {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
 
-    .product-table tbody tr:hover {
-        background-color: #ffe0b2;
-        transform: scale(1.01);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+            .product-table tbody tr:hover {
+                background-color: #ffe0b2;
+                transform: scale(1.01);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
 
     /* Product image */
     .product-img {
@@ -77,10 +77,10 @@
         color: white;
     }
 
-    .btn-success:hover {
-        background-color: #f4511e;
-        border-color: #f4511e;
-    }
+        .btn-success:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
 
     /* Main heading accent */
     h1.page-title {
@@ -92,12 +92,12 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .table-hover-effect:hover {
-        transform: scale(1.015);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        z-index: 10;
-        position: relative;
-    }
+        .table-hover-effect:hover {
+            transform: scale(1.015);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            position: relative;
+        }
 
     /* Filters container */
     .filters-container {
@@ -107,12 +107,12 @@
         margin-bottom: 1rem;
     }
 
-    .filters-container input,
-    .filters-container select {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        font-size: 0.9rem;
-    }
+        .filters-container input,
+        .filters-container select {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.9rem;
+        }
 </style>
 
 <h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
@@ -121,48 +121,60 @@
     @foreach (var categoryGroup in Model.ProductsByCategory)
     {
         var categoryId = categoryGroup.Key.Replace(" ", "-"); // safe HTML id
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h2 class="category-title mb-0">@categoryGroup.Key</h2>
-            <div class="filters-container">
-                <input type="text" placeholder="Search Name" class="form-control form-control-sm filter-name" data-category="@categoryId" style="width: 150px;" />
-                <select class="form-select form-select-sm filter-sort" data-category="@categoryId" style="width: 180px;">
-                    <option value="">Sort By</option>
-                    <option value="name-asc">Name Ascending</option>
-                    <option value="name-desc">Name Descending</option>
-                    <option value="price-asc">Price Ascending</option>
-                    <option value="price-desc">Price Descending</option>
-                </select>
-            </div>
-        </div>
+        var products = categoryGroup.Value.ToList();
+        var totalQuantity = products.Sum(p => p.Quantity);
 
-        <div class="table-hover-effect table-responsive mb-5">
-            <table class="product-table" id="table-@categoryId">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in categoryGroup.Value)
-                    {
+        <div id="category-@categoryId" class="category-section">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="category-title mb-0">@categoryGroup.Key</h2>
+                @if (products.Count >= 2)
+                {
+                    <div class="filters-container">
+                        <input type="text" placeholder="Search Name" class="form-control form-control-sm filter-name" data-category="@categoryId" style="width: 150px;" />
+                        <select class="form-select form-select-sm filter-sort" data-category="@categoryId" style="width: 180px;">
+                            <option value="">Sort By</option>
+                            <option value="name-asc">Name Ascending</option>
+                            <option value="name-desc">Name Descending</option>
+                            <option value="price-asc">Price Ascending</option>
+                            <option value="price-desc">Price Descending</option>
+                        </select>
+                    </div>
+                }
+            </div>
+
+            <div class="table-hover-effect table-responsive mb-5">
+                <table class="product-table" id="table-@categoryId">
+                    <thead>
                         <tr>
-                            <td>
-                                <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
-                            </td>
-                            <td class="product-name">@product.Name</td>
-                            <td class="product-price">@product.Price</td>
-                            <td>@product.Quantity</td>
-                            <td>
-                                <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
-                            </td>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>      <!-- Quantity column -->
+                            <th>Serving Size</th>  <!-- Serving Size column -->
+                            <th>Price</th>         <!-- Price column -->
+                            <th>Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in products)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
+                                </td>
+                                <td class="product-name">@product.Name</td>
+                                <td>@product.Category?.Name</td>
+                                <td>@product.Quantity</td>      <!-- Quantity value -->
+                                <td>@product.ServingSize</td>   <!-- Serving Size value -->
+                                <td class="product-price">@product.Price.ToString("C")</td> <!-- Price value -->
+                                <td>
+                                    <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 </div>
@@ -173,14 +185,17 @@
             toastr.success(`Pretend purchased "${productName}"!`);
         }
 
-        // Main filter + sort function per category
+        // Filter + sort function per category
         function filterAndSortTable(categoryId) {
+            const categorySection = document.getElementById(`category-${categoryId}`);
             const table = document.getElementById(`table-${categoryId}`);
             const nameInput = document.querySelector(`.filter-name[data-category="${categoryId}"]`);
             const sortSelect = document.querySelector(`.filter-sort[data-category="${categoryId}"]`);
 
-            const filterName = nameInput.value.toLowerCase();
-            const sortValue = sortSelect.value;
+            if (!table) return;
+
+            const filterName = nameInput ? nameInput.value.toLowerCase() : '';
+            const sortValue = sortSelect ? sortSelect.value : '';
 
             let rows = Array.from(table.tBodies[0].rows);
 
@@ -190,7 +205,7 @@
                 row.style.display = nameCell.includes(filterName) ? '' : 'none';
             });
 
-            // Filtered rows only
+            // Filtered rows only (visible rows)
             rows = rows.filter(row => row.style.display !== 'none');
 
             // Sort the filtered rows if sort option selected
@@ -203,8 +218,8 @@
                         if (nameA > nameB) return sortValue === 'name-asc' ? 1 : -1;
                         return 0;
                     } else if (sortValue.startsWith('price')) {
-                        const priceA = parseFloat(a.querySelector('.product-price').textContent);
-                        const priceB = parseFloat(b.querySelector('.product-price').textContent);
+                        const priceA = parseFloat(a.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g,""));
+                        const priceB = parseFloat(b.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g,""));
                         return sortValue === 'price-asc' ? priceA - priceB : priceB - priceA;
                     }
                     return 0;
@@ -216,13 +231,35 @@
             rows.forEach(row => tbody.appendChild(row));
         }
 
-        // Attach event listeners for filtering and sorting
-        document.querySelectorAll('.filter-name').forEach(input => {
-            input.addEventListener('input', () => filterAndSortTable(input.dataset.category));
-        });
+        // On page load: Hide categories with total quantity <= 0
+        // Also attach event listeners to filter inputs for categories with filters
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.category-section').forEach(section => {
+                const categoryId = section.id.replace('category-', '');
+                const table = document.getElementById(`table-${categoryId}`);
+                if (!table) return;
 
-        document.querySelectorAll('.filter-sort').forEach(select => {
-            select.addEventListener('change', () => filterAndSortTable(select.dataset.category));
+                // Calculate total quantity visible on load
+                let totalQuantity = 0;
+                Array.from(table.tBodies[0].rows).forEach(row => {
+                    const qty = parseInt(row.cells[3].textContent); // Quantity is in 4th cell (index 3)
+                    totalQuantity += qty;
+                });
+
+                // Hide category if total quantity <= 0
+                if (totalQuantity <= 0) {
+                    section.style.display = 'none';
+                }
+
+                // Only add event listeners if filters exist (products >= 2)
+                const nameInput = section.querySelector('.filter-name');
+                const sortSelect = section.querySelector('.filter-sort');
+
+                if (nameInput && sortSelect) {
+                    nameInput.addEventListener('input', () => filterAndSortTable(categoryId));
+                    sortSelect.addEventListener('change', () => filterAndSortTable(categoryId));
+                }
+            });
         });
     </script>
 }

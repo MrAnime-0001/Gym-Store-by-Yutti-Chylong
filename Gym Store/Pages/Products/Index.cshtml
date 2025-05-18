@@ -20,8 +20,9 @@
                 <th>Image</th>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Price</th>
                 <th>Quantity</th>
+                <th>Serving Size</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,8 +40,9 @@
                         </td>
                         <td>@obj.Name</td>
                         <td>@obj.Category?.Name</td>
-                        <td>@obj.Price.ToString("C")</td>
                         <td>@obj.Quantity</td>
+                        <td>@obj.ServingSize</td>
+                        <td>@obj.Price.ToString("C")</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a asp-page="/Products/Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
@@ -57,7 +59,7 @@
             else
             {
                 <tr>
-                    <td colspan="6" class="text-center text-danger">No products available</td>
+                    <td colspan="7" class="text-center text-danger">No products available</td>
                 </tr>
             }
         </tbody>
@@ -71,7 +73,7 @@
     }
 
     .container h2 {
-        color: #ff7043 !important; /* Orange color for the page title */
+        color: #ff7043 !important;
     }
 
     /* Button Custom Styling */
@@ -83,10 +85,10 @@
         color: white;
     }
 
-    .btn-custom:hover {
-        background-color: #f4511e;
-        border-color: #f4511e;
-    }
+        .btn-custom:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+        }
 
     /* Table header background */
     .thead-custom {
@@ -99,9 +101,9 @@
         border-color: #ff7043;
     }
 
-    table.table-bordered th, table.table-bordered td {
-        border-color: #ff7043;
-    }
+        table.table-bordered th, table.table-bordered td {
+            border-color: #ff7043;
+        }
 
     table.table-striped tbody tr:nth-child(odd) {
         background-color: #fff3e0;

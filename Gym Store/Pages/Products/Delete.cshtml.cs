@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Gym_Store.Pages.Products
 {
@@ -23,11 +24,11 @@ namespace Gym_Store.Pages.Products
         }
 
         // GET: Load the product to confirm deletion
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            Product = _dbContext.Products
+            Product = await _dbContext.Products
                 .Include(p => p.Category)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (Product == null)
             {
@@ -38,9 +39,9 @@ namespace Gym_Store.Pages.Products
         }
 
         // POST: Delete the product
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var productInDb = _dbContext.Products.Find(Product.Id);
+            var productInDb = await _dbContext.Products.FindAsync(Product.Id);
             if (productInDb == null)
             {
                 return NotFound();
@@ -49,7 +50,7 @@ namespace Gym_Store.Pages.Products
             // Delete image file from wwwroot if it exists
             if (!string.IsNullOrEmpty(productInDb.ImageUrl))
             {
-                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, productInDb.ImageUrl.TrimStart('/'));
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, productInDb.ImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
                 if (System.IO.File.Exists(imagePath))
                 {
                     System.IO.File.Delete(imagePath);
@@ -57,7 +58,7 @@ namespace Gym_Store.Pages.Products
             }
 
             _dbContext.Products.Remove(productInDb);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             TempData["success"] = "Product deleted successfully!";
             return RedirectToPage("Index");

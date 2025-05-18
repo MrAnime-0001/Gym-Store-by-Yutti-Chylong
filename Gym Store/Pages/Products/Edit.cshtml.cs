@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Gym_Store.Pages.Products
 {
@@ -13,12 +18,9 @@ namespace Gym_Store.Pages.Products
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public List<SelectListItem> CategoryList { get; set; }
-
 
         public Product Product { get; set; }
-
-        [BindProperty]
+        public List<SelectListItem> CategoryList { get; set; }
         public IFormFile? ImageFile { get; set; }
 
         public EditModel(ApplicationDbContext dbContext, IWebHostEnvironment webHostEnvironment)
@@ -31,41 +33,26 @@ namespace Gym_Store.Pages.Products
         {
             Product = _dbContext.Products.Find(id);
             if (Product == null)
-            {
                 return NotFound();
-            }
 
-            CategoryList = _dbContext.Categories
-                .Select(c => new SelectListItem
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString()
-                }).ToList();
-
+            PopulateCategoryList();
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                CategoryList = _dbContext.Categories
-                    .Select(c => new SelectListItem
-                    {
-                        Text = c.Name,
-                        Value = c.Id.ToString()
-                    }).ToList();
-
+                PopulateCategoryList();
                 return Page();
             }
 
             var productFromDb = _dbContext.Products.Find(Product.Id);
             if (productFromDb == null)
-            {
                 return NotFound();
-            }
 
-            if (ImageFile != null)
+            // Update image if new file is uploaded
+            if (ImageFile != null && ImageFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Gym_Store", "Images");
                 Directory.CreateDirectory(uploadsFolder);
@@ -75,20 +62,33 @@ namespace Gym_Store.Pages.Products
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    ImageFile.CopyTo(fileStream);
+                    await ImageFile.CopyToAsync(fileStream);
                 }
 
                 productFromDb.ImageUrl = $"/Gym_Store/Images/{fileName}";
             }
 
+            // Update other fields
             productFromDb.Name = Product.Name;
             productFromDb.Price = Product.Price;
             productFromDb.Quantity = Product.Quantity;
+            productFromDb.ServingSize = Product.ServingSize;
             productFromDb.CategoryId = Product.CategoryId;
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
+
             TempData["success"] = "Product updated successfully!";
             return RedirectToPage("Index");
+        }
+
+        private void PopulateCategoryList()
+        {
+            CategoryList = _dbContext.Categories
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).ToList();
         }
     }
 }

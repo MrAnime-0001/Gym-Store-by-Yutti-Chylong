@@ -177,10 +177,11 @@ namespace Gym_Store.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ServingSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -207,29 +208,29 @@ namespace Gym_Store.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "ImageUrl", "Name", "Price", "Quantity" },
+                columns: new[] { "Id", "CategoryId", "ImageUrl", "Name", "Price", "Quantity", "ServingSize" },
                 values: new object[,]
                 {
-                    { 1, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg", "Optimum Nutrition Gold Standard 100% Whey - French Vanilla", 98.95m, "2.27 kg" },
-                    { 2, 1, "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg", "Myprotein Impact Whey Isolate", 70.50m, "1 kg" },
-                    { 3, 2, "/Gym_Store/Images/INC Creatine Monohydrate.jpg", "INC Creatine Monohydrate", 39.95m, "500 g" },
-                    { 4, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg", "EHP Labs Pride Pre-Workout Blue Slushie", 79.95m, "40 Serves" },
-                    { 5, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg", "EHP Labs Pride Pre-Workout Raspberry Twizzle", 79.95m, "40 Serves" },
-                    { 6, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg", "Optimum Nutrition Gold Standard Pre-Workout Green Apple", 39.90m, "30 Serves" },
-                    { 7, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg", "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade", 39.90m, "30 Serves" },
-                    { 8, 3, "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg", "Musashi Pre-Workout Purple Grape", 29.99m, "225 g" },
-                    { 9, 2, "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg", "Optimum Nutrition Micronised Creatine Powder", 39.95m, "300 G" },
-                    { 10, 2, "/Gym_Store/Images/Musashi 100% Creatine.jpg", "Musashi 100% Creatine", 32.95m, "350 G" },
-                    { 11, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg", "Musashi Shred & Burn Protein – Vanilla Milkshake", 110.46m, "2 kg" },
-                    { 12, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg", "Musashi Shred & Burn Protein – Chocolate Milkshake", 110.46m, "2 kg" },
-                    { 13, 4, "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg", "Grenade Protein Bar - Oreo", 59.95m, "12 x 60 G" },
-                    { 14, 4, "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg", "Chief Collagen Bar  – Double Chocolate", 63.00m, "12x 60g" },
-                    { 15, 4, "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg", "Grenade Protein Bar - Fudge Up", 59.95m, "12 x 60 G" },
-                    { 16, 4, "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg", "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge", 34.95m, "12x 60g" },
-                    { 17, 4, "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg", "Musashi Protein + Energy Bars - Banana Bread", 39.96m, "12x 58g" },
-                    { 18, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg", "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream", 98.95m, "2.27 kg" },
-                    { 19, 1, "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg", "Ghost Whey Protein - Coffee Ice Cream", 89.00m, "2.27 kg" },
-                    { 20, 1, "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg", "Ghost Whey Protein - Marshmallow", 89.00m, "2.27 kg" }
+                    { 1, 1, "/Gym_Store/Images/Ghost Whey Protein - Coffee Ice Cream.jpg", "Ghost Whey Protein - Coffee Ice Cream", 89.00m, 6, "64 Serves" },
+                    { 2, 1, "/Gym_Store/Images/Ghost Whey Protein - Marshmallow.jpg", "Ghost Whey Protein - Marshmallow", 89.00m, 22, "64 Serves" },
+                    { 3, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Chocolate Milkshake.jpg", "Musashi Shred & Burn Protein – Chocolate Milkshake", 110.46m, 17, "58 Serves" },
+                    { 4, 1, "/Gym_Store/Images/Musashi Shred & Burn Protein – Vanilla Milkshake.jpg", "Musashi Shred & Burn Protein – Vanilla Milkshake", 110.46m, 21, "58 Serves" },
+                    { 5, 1, "/Gym_Store/Images/Myprotein Impact Whey Isolate.jpg", "Myprotein Impact Whey Isolate", 70.50m, 15, "40 Serves" },
+                    { 6, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream.jpg", "Optimum Nutrition Gold Standard 100% Whey - Cookies & Cream", 98.95m, 20, "29 Serves" },
+                    { 7, 1, "/Gym_Store/Images/Optimum Nutrition Gold Standard 100% Whey - French Vanilla.jpg", "Optimum Nutrition Gold Standard 100% Whey - French Vanilla", 98.95m, 18, "29 Serves" },
+                    { 8, 2, "/Gym_Store/Images/INC Creatine Monohydrate.jpg", "INC Creatine Monohydrate", 39.95m, 10, "100 Serves" },
+                    { 9, 2, "/Gym_Store/Images/Musashi 100% Creatine.jpg", "Musashi 100% Creatine", 32.95m, 7, "70 Serves" },
+                    { 10, 2, "/Gym_Store/Images/Optimum Nutrition Micronised Creatine Powder.jpg", "Optimum Nutrition Micronised Creatine Powder", 39.95m, 20, "60 Serves" },
+                    { 11, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Blue Slushie.jpg", "EHP Labs Pride Pre-Workout Blue Slushie", 79.95m, 14, "40 Serves" },
+                    { 12, 3, "/Gym_Store/Images/EHP Labs Pride Pre-Workout Raspberry Twizzle.jpg", "EHP Labs Pride Pre-Workout Raspberry Twizzle", 79.95m, 19, "40 Serves" },
+                    { 13, 3, "/Gym_Store/Images/Musashi Pre-Workout Purple Grape.jpg", "Musashi Pre-Workout Purple Grape", 29.99m, 13, "25 Serves" },
+                    { 14, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade.jpg", "Optimum Nutrition Gold Standard Pre-Workout Blueberry Lemonade", 39.90m, 16, "30 Serves" },
+                    { 15, 3, "/Gym_Store/Images/Optimum Nutrition Gold Standard Pre-Workout Green Apple.jpg", "Optimum Nutrition Gold Standard Pre-Workout Green Apple", 39.90m, 11, "30 Serves" },
+                    { 16, 4, "/Gym_Store/Images/Chief Collagen Bar  – Double Chocolate.jpg", "Chief Collagen Bar  – Double Chocolate", 63.00m, 9, "12 x 60g" },
+                    { 17, 4, "/Gym_Store/Images/Grenade Protein Bar - Fudge Up.jpg", "Grenade Protein Bar - Fudge Up", 59.95m, 8, "12 x 60 G" },
+                    { 18, 4, "/Gym_Store/Images/Grenade Protein Bar - Oreo.jpg", "Grenade Protein Bar - Oreo", 59.95m, 22, "12 x 60 G" },
+                    { 19, 4, "/Gym_Store/Images/Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge.jpg", "Horleys Protein 33 Low Carb Bars - Double Chocolate Fudge", 34.95m, 12, "12 x 60g" },
+                    { 20, 4, "/Gym_Store/Images/Musashi Protein + Energy Bars - Banana Bread.jpg", "Musashi Protein + Energy Bars - Banana Bread", 39.96m, 5, "12 x 58g" }
                 });
 
             migrationBuilder.CreateIndex(
