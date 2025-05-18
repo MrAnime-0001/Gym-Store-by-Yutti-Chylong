@@ -28,33 +28,33 @@
         overflow: hidden;
     }
 
-        .product-table th,
-        .product-table td {
-            padding: 1rem;
-            text-align: center;
-            border: 1px solid #ffe0b2;
-        }
+    .product-table th,
+    .product-table td {
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #ffe0b2;
+    }
 
-        .product-table th {
-            background-color: #ffe0b2;
-            color: #3e2723;
-        }
+    .product-table th {
+        background-color: #ffe0b2;
+        color: #3e2723;
+    }
 
-        .product-table td {
-            background-color: #fffde7;
-            color: #3e2723;
-        }
+    .product-table td {
+        background-color: #fffde7;
+        color: #3e2723;
+    }
 
-        /* Hover effect on table rows */
-        .product-table tbody tr {
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+    /* Hover effect on table rows */
+    .product-table tbody tr {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-            .product-table tbody tr:hover {
-                background-color: #ffe0b2;
-                transform: scale(1.01);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            }
+    .product-table tbody tr:hover {
+        background-color: #ffe0b2;
+        transform: scale(1.01);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
     /* Product image */
     .product-img {
@@ -77,10 +77,10 @@
         color: white;
     }
 
-        .btn-success:hover {
-            background-color: #f4511e;
-            border-color: #f4511e;
-        }
+    .btn-success:hover {
+        background-color: #f4511e;
+        border-color: #f4511e;
+    }
 
     /* Main heading accent */
     h1.page-title {
@@ -92,12 +92,27 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .table-hover-effect:hover {
-            transform: scale(1.015);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-            position: relative;
-        }
+    .table-hover-effect:hover {
+        transform: scale(1.015);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        position: relative;
+    }
+
+    /* Filters container */
+    .filters-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .filters-container input,
+    .filters-container select {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
 </style>
 
 <h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
@@ -105,9 +120,23 @@
 <div class="container">
     @foreach (var categoryGroup in Model.ProductsByCategory)
     {
-        <h2 class="category-title">@categoryGroup.Key</h2>
+        var categoryId = categoryGroup.Key.Replace(" ", "-"); // safe HTML id
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2 class="category-title mb-0">@categoryGroup.Key</h2>
+            <div class="filters-container">
+                <input type="text" placeholder="Search Name" class="form-control form-control-sm filter-name" data-category="@categoryId" style="width: 150px;" />
+                <select class="form-select form-select-sm filter-sort" data-category="@categoryId" style="width: 180px;">
+                    <option value="">Sort By</option>
+                    <option value="name-asc">Name Ascending</option>
+                    <option value="name-desc">Name Descending</option>
+                    <option value="price-asc">Price Ascending</option>
+                    <option value="price-desc">Price Descending</option>
+                </select>
+            </div>
+        </div>
+
         <div class="table-hover-effect table-responsive mb-5">
-            <table class="product-table">
+            <table class="product-table" id="table-@categoryId">
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -124,8 +153,8 @@
                             <td>
                                 <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
                             </td>
-                            <td>@product.Name</td>
-                            <td>$@product.Price</td>
+                            <td class="product-name">@product.Name</td>
+                            <td class="product-price">@product.Price</td>
                             <td>@product.Quantity</td>
                             <td>
                                 <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
@@ -143,5 +172,57 @@
         function showPurchaseAlert(productName) {
             toastr.success(`Pretend purchased "${productName}"!`);
         }
+
+        // Main filter + sort function per category
+        function filterAndSortTable(categoryId) {
+            const table = document.getElementById(`table-${categoryId}`);
+            const nameInput = document.querySelector(`.filter-name[data-category="${categoryId}"]`);
+            const sortSelect = document.querySelector(`.filter-sort[data-category="${categoryId}"]`);
+
+            const filterName = nameInput.value.toLowerCase();
+            const sortValue = sortSelect.value;
+
+            let rows = Array.from(table.tBodies[0].rows);
+
+            // Filter rows by name
+            rows.forEach(row => {
+                const nameCell = row.querySelector('.product-name').textContent.toLowerCase();
+                row.style.display = nameCell.includes(filterName) ? '' : 'none';
+            });
+
+            // Filtered rows only
+            rows = rows.filter(row => row.style.display !== 'none');
+
+            // Sort the filtered rows if sort option selected
+            if (sortValue) {
+                rows.sort((a, b) => {
+                    if (sortValue.startsWith('name')) {
+                        const nameA = a.querySelector('.product-name').textContent.toLowerCase();
+                        const nameB = b.querySelector('.product-name').textContent.toLowerCase();
+                        if (nameA < nameB) return sortValue === 'name-asc' ? -1 : 1;
+                        if (nameA > nameB) return sortValue === 'name-asc' ? 1 : -1;
+                        return 0;
+                    } else if (sortValue.startsWith('price')) {
+                        const priceA = parseFloat(a.querySelector('.product-price').textContent);
+                        const priceB = parseFloat(b.querySelector('.product-price').textContent);
+                        return sortValue === 'price-asc' ? priceA - priceB : priceB - priceA;
+                    }
+                    return 0;
+                });
+            }
+
+            // Append sorted rows back to tbody
+            const tbody = table.tBodies[0];
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Attach event listeners for filtering and sorting
+        document.querySelectorAll('.filter-name').forEach(input => {
+            input.addEventListener('input', () => filterAndSortTable(input.dataset.category));
+        });
+
+        document.querySelectorAll('.filter-sort').forEach(select => {
+            select.addEventListener('change', () => filterAndSortTable(select.dataset.category));
+        });
     </script>
 }
