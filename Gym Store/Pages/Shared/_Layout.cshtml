@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,42 +14,32 @@
     <link rel="stylesheet" href="~/Gym_Store.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
-    @using Microsoft.AspNetCore.Identity
-    @using System.Security.Claims
-    @inject SignInManager<IdentityUser> SignInManager
-    @inject UserManager<IdentityUser> UserManager
-
-
     <style>
-        /* Navbar background gradient */
         .navbar {
-            background: linear-gradient(to right, #006064, #ff7043); /* Cyan to Orange gradient */
+            background: linear-gradient(to right, #006064, #ff7043);
         }
 
-        /* Centering nav items */
         .navbar-nav {
             flex-direction: row;
-            justify-content: center; /* Center navbar links */
+            justify-content: center;
             width: 100%;
         }
 
-        .navbar-nav .nav-item {
-            padding: 0 20px; /* Padding between links */
-        }
+            .navbar-nav .nav-item {
+                padding: 0 20px;
+            }
 
-        /* Style for navbar links */
         .nav-link {
             font-weight: bold;
             color: white !important;
             transition: color 0.3s ease, background-color 0.3s ease;
         }
 
-        .nav-link:hover {
-            color: #ff7043 !important; /* Hover effect: orange color */
-            background-color: rgba(255, 255, 255, 0.2); /* Light transparent background */
-        }
+            .nav-link:hover {
+                color: #ff7043 !important;
+                background-color: rgba(255, 255, 255, 0.2);
+            }
 
-        /* Navbar brand (logo) */
         .navbar-brand {
             color: white !important;
             font-size: 1.5rem;
@@ -52,7 +47,7 @@
         }
 
         .navbar-toggler-icon {
-            background-color: white !important; /* Make the toggle icon white */
+            background-color: white !important;
         }
     </style>
 </head>
@@ -62,30 +57,31 @@
             <div class="container-fluid">
                 <div class="collapse navbar-collapse w-100" id="navbarNav">
                     <div class="d-flex w-100 justify-content-between align-items-center">
-
-                        <!-- Spacer to push center content to center -->
                         <div class="d-none d-sm-block" style="width: 1650px;"></div>
 
-                        <!-- Centered links -->
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin Menu
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-page="/Products/Index">Product Index</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-page="/Categories/Index">Category Index</a></li>
-                                </ul>
-                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin Menu
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><a class="dropdown-item" asp-area="" asp-page="/Products/Index">Product Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-page="/Categories/Index">Category Index</a></li>
+                                    </ul>
+                                </li>
+                            }
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                             </li>
                         </ul>
 
-                        <!-- Login/Register or Logout at far right -->
                         <ul class="navbar-nav">
                             @if (SignInManager.IsSignedIn(User))
                             {
