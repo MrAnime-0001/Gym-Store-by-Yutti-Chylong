@@ -4,6 +4,29 @@
     ViewData["Title"] = "Home - Gym_Store";
 }
 
+<!-- Bootstrap Modal for Product Info -->
+<div class="modal fade" id="productDataModal" tabindex="-1" aria-labelledby="productDataModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!-- Wrap the entire modal content to make the hover effect work for both header and body together -->
+        <div class="modal-content modal-hover-effect">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productDataModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img id="modalProductImage" src="" alt="" class="img-fluid mb-3 product-enlarged" style="max-height: 300px; transition: transform 0.3s ease;" />
+                </div>
+                <p><strong>Name:</strong> <span id="modalProductName"></span></p>
+                <p><strong>Category:</strong> <span id="modalProductCategory"></span></p>
+                <p><strong>Quantity:</strong> <span id="modalProductQuantity"></span></p>
+                <p><strong>Serving Size:</strong> <span id="modalProductServing"></span></p>
+                <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     /* Body: soft cyan gradient */
     body {
@@ -113,6 +136,72 @@
             padding: 0.25rem 0.5rem;
             font-size: 0.9rem;
         }
+
+    /* Darker blue for View Data button */
+    .btn-view-data {
+        background-color: #0071c5;
+        border-color: #006bb3;
+        color: white; /* Keep text white */
+        border-radius: 20px;
+        padding: 0.4rem 1rem;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-view-data:hover {
+            background-color: #005fa3;
+            border-color: #005fa3;
+            color: white !important; /* Prevent color change on hover */
+        }
+
+    /* Add a hover effect to product images */
+    .product-img {
+        transition: transform 0.3s ease, transform 0.2s ease;
+    }
+
+    .product-table tbody tr:hover .product-img {
+        transform: scale(1.1);
+        z-index: 10;
+    }
+
+    /* Hover effect for image inside modal */
+    .product-enlarged {
+        transition: transform 0.3s ease;
+    }
+
+    /* Modal styling: center image smoothly */
+    .modal-body {
+        text-align: center;
+    }
+
+    /* Add hover effect on images to make them interactive */
+    .product-img:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
+    /* New hover effect for modal content (body only) */
+    .modal-hover-effect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Disable hover effect on the header */
+    .modal-header:hover {
+        transform: none; /* Prevent scaling on hover */
+        box-shadow: none;
+    }
+
+    .modal-hover-effect:hover {
+        transform: scale(1.05); /* Slightly enlarge the entire modal */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    }
+
+    /* Smooth transition for modal header and body together */
+    .modal-body:hover {
+        transform: scale(1.05); /* Slightly enlarge the body */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    }
+
+    /* Modal body and header scaling can be adjusted separately if needed */
 </style>
 
 <h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
@@ -149,9 +238,9 @@
                             <th>Image</th>
                             <th>Name</th>
                             <th>Category</th>
-                            <th>Quantity</th>      <!-- Quantity column -->
-                            <th>Serving Size</th>  <!-- Serving Size column -->
-                            <th>Price</th>         <!-- Price column -->
+                            <th>Quantity</th>
+                            <th>Serving Size</th>
+                            <th>Price</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -163,12 +252,13 @@
                                     <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
                                 </td>
                                 <td class="product-name">@product.Name</td>
-                                <td>@product.Category?.Name</td>
-                                <td>@product.Quantity</td>      <!-- Quantity value -->
-                                <td>@product.ServingSize</td>   <!-- Serving Size value -->
-                                <td class="product-price">@product.Price.ToString("C")</td> <!-- Price value -->
+                                <td class="product-category">@product.Category?.Name</td>
+                                <td>@product.Quantity</td>
+                                <td>@product.ServingSize</td>
+                                <td class="product-price">@product.Price.ToString("C")</td>
                                 <td>
                                     <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
+                                    <button class="btn btn-info btn-view-data mt-2" onclick="viewProductData(this)">View Data</button>
                                 </td>
                             </tr>
                         }
@@ -185,7 +275,32 @@
             toastr.success(`Pretend purchased "${productName}"!`);
         }
 
-        // Filter + sort function per category
+        // Modal View Data function
+        function viewProductData(btn) {
+            // Find the row from the clicked button
+            const row = btn.closest('tr');
+            const img = row.querySelector('.product-img').src;
+            const name = row.querySelector('.product-name').textContent;
+            const category = row.querySelector('.product-category').textContent;
+            const qty = row.cells[3].textContent;
+            const serving = row.cells[4].textContent;
+            const price = row.querySelector('.product-price').textContent;
+
+            // Set modal content
+            document.getElementById('modalProductImage').src = img;
+            document.getElementById('modalProductImage').alt = name;
+            document.getElementById('modalProductName').textContent = name;
+            document.getElementById('modalProductCategory').textContent = category;
+            document.getElementById('modalProductQuantity').textContent = qty;
+            document.getElementById('modalProductServing').textContent = serving;
+            document.getElementById('modalProductPrice').textContent = price;
+
+            // Show the modal
+            var myModal = new bootstrap.Modal(document.getElementById('productDataModal'));
+            myModal.show();
+        }
+
+        // ... (your existing filter/sort script unchanged) ...
         function filterAndSortTable(categoryId) {
             const categorySection = document.getElementById(`category-${categoryId}`);
             const table = document.getElementById(`table-${categoryId}`);
@@ -199,16 +314,13 @@
 
             let rows = Array.from(table.tBodies[0].rows);
 
-            // Filter rows by name
             rows.forEach(row => {
                 const nameCell = row.querySelector('.product-name').textContent.toLowerCase();
                 row.style.display = nameCell.includes(filterName) ? '' : 'none';
             });
 
-            // Filtered rows only (visible rows)
             rows = rows.filter(row => row.style.display !== 'none');
 
-            // Sort the filtered rows if sort option selected
             if (sortValue) {
                 rows.sort((a, b) => {
                     if (sortValue.startsWith('name')) {
@@ -226,32 +338,26 @@
                 });
             }
 
-            // Append sorted rows back to tbody
             const tbody = table.tBodies[0];
             rows.forEach(row => tbody.appendChild(row));
         }
 
-        // On page load: Hide categories with total quantity <= 0
-        // Also attach event listeners to filter inputs for categories with filters
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.category-section').forEach(section => {
                 const categoryId = section.id.replace('category-', '');
                 const table = document.getElementById(`table-${categoryId}`);
                 if (!table) return;
 
-                // Calculate total quantity visible on load
                 let totalQuantity = 0;
                 Array.from(table.tBodies[0].rows).forEach(row => {
-                    const qty = parseInt(row.cells[3].textContent); // Quantity is in 4th cell (index 3)
+                    const qty = parseInt(row.cells[3].textContent);
                     totalQuantity += qty;
                 });
 
-                // Hide category if total quantity <= 0
                 if (totalQuantity <= 0) {
                     section.style.display = 'none';
                 }
 
-                // Only add event listeners if filters exist (products >= 2)
                 const nameInput = section.querySelector('.filter-name');
                 const sortSelect = section.querySelector('.filter-sort');
 
