@@ -1,14 +1,14 @@
-﻿@page
-@model Gym_Store.Pages.Categories.IndexModel
+﻿@model List<Gym_Store.Models.Product>
 
 <div class="container">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Category List</h2>
+            <h2 class="text-primary">Product List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-page="/Categories/Create" class="btn btn-custom">
-                <i class="bi bi-plus-circle"></i> Create New Category
+            <!-- Create button linking to the Create page -->
+            <a asp-action="Create" class="btn btn-custom">
+                <i class="bi bi-plus-circle"></i> Create New Product
             </a>
         </div>
     </div>
@@ -16,23 +16,38 @@
     <table class="table table-bordered table-striped mt-3">
         <thead class="thead-custom">
             <tr>
-                <th>Category Name</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Serving Size</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.CategoryList != null && Model.CategoryList.Any())
+            @if (Model != null && Model.Any())
             {
-                @foreach (var category in Model.CategoryList.OrderBy(c => c.Name))
+                @foreach (var obj in Model.OrderBy(p => p.Name))
                 {
                     <tr>
-                        <td>@category.Name</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(obj.ImageUrl))
+                            {
+                                <img src="@obj.ImageUrl" alt="Product Image" width="60" height="60" style="object-fit:cover; border-radius:8px;" />
+                            }
+                        </td>
+                        <td>@obj.Name</td>
+                        <td>@obj.Category?.Name</td>
+                        <td>@obj.Quantity</td>
+                        <td>@obj.ServingSize</td>
+                        <td>@obj.Price.ToString("C")</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-page="/Categories/Edit" asp-route-id="@category.Id" class="btn btn-sm btn-warning">
+                                <a asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-                                <a asp-page="/Categories/Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">
+                                <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
                                     <i class="bi bi-trash-fill"></i> Delete
                                 </a>
                             </div>
@@ -43,7 +58,7 @@
             else
             {
                 <tr>
-                    <td colspan="2" class="text-center text-danger">No categories available</td>
+                    <td colspan="7" class="text-center text-danger">No products available</td>
                 </tr>
             }
         </tbody>
@@ -51,6 +66,7 @@
 </div>
 
 <style>
+    /* Body background */
     body {
         background: linear-gradient(to right, #e0f7fa, #b2ebf2);
     }
@@ -59,6 +75,7 @@
         color: #ff7043 !important;
     }
 
+    /* Button Custom Styling */
     .btn-custom {
         background-color: #ff7043;
         border-color: #ff7043;
@@ -72,11 +89,13 @@
             border-color: #f4511e;
         }
 
+    /* Table header background */
     .thead-custom {
         background-color: #ffe0b2;
         color: #3e2723;
     }
 
+    /* Table rows */
     table.table-bordered {
         border-color: #ff7043;
     }

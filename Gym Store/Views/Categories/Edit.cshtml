@@ -1,9 +1,7 @@
-﻿@page
-@model Gym_Store.Pages.Categories.EditModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@model Gym_Store.Models.Category
 
-<form method="post">
-    <input asp-for="Category.Id" type="hidden" />
+<form method="post" asp-action="Edit" asp-controller="Categories">
+    <input asp-for="Id" type="hidden" />
 
     <div class="border p-4 mt-4 bg-light">
         <div class="row pb-2">
@@ -13,9 +11,9 @@
 
         <!-- Category Name -->
         <div class="mb-3 row">
-            <label asp-for="Category.Name" class="col-form-label"></label>
-            <input asp-for="Category.Name" class="form-control custom-input" />
-            <span asp-validation-for="Category.Name" class="text-danger"></span>
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="row">
@@ -23,7 +21,7 @@
                 <button type="submit" class="btn btn-custom form-control">Update</button>
             </div>
             <div class="col-6 col-md-3 mb-2">
-                <a asp-page="/Categories/Index" class="btn btn-secondary form-control">Back to List</a>
+                <a asp-action="Index" asp-controller="Categories" class="btn btn-secondary form-control">Back to List</a>
             </div>
         </div>
     </div>
@@ -52,6 +50,7 @@
         background-color: #f1f1f1;
     }
 
+        /* Input focus effect */
         .custom-input:focus {
             border-color: #ff7043;
             box-shadow: 0 0 0 0.2rem rgba(255, 112, 67, 0.25);

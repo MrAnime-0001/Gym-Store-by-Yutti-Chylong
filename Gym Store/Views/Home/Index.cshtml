@@ -1,5 +1,5 @@
-﻿@page
-@model Gym_Store.Pages.IndexModel
+﻿@model Dictionary<string, List<Gym_Store.Models.Product>>
+
 @{
     ViewData["Title"] = "Home - Gym_Store";
 }
@@ -118,7 +118,7 @@
 <h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
 
 <div class="container">
-    @foreach (var categoryGroup in Model.ProductsByCategory)
+    @foreach (var categoryGroup in Model)
     {
         var categoryId = categoryGroup.Key.Replace(" ", "-"); // safe HTML id
         var products = categoryGroup.Value.ToList();

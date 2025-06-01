@@ -11,7 +11,8 @@ namespace Gym_Store
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddControllersWithViews(); // Add MVC services for controllers and views
+            builder.Services.AddRazorPages(); // If you are also using Razor Pages
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -36,7 +37,12 @@ namespace Gym_Store
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
+            // Map MVC Controllers
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}"); // Set default route for HomeController
+
+            app.MapRazorPages(); // If you also use Razor Pages, map them here
 
             // Seed roles and default admin user
             using (var scope = app.Services.CreateScope())

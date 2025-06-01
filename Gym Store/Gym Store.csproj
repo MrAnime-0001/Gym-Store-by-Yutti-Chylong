@@ -8,6 +8,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Data\**" />
+    <Compile Remove="Controllers\Admin\**" />
+    <Compile Remove="Controllers\Customer\**" />
+    <Compile Remove="Views\Admin\**" />
+    <Compile Remove="Views\Customer\**" />
+    <Content Remove="Areas\Identity\Data\**" />
+    <Content Remove="Controllers\Admin\**" />
+    <Content Remove="Controllers\Customer\**" />
+    <Content Remove="Views\Admin\**" />
+    <Content Remove="Views\Customer\**" />
+    <EmbeddedResource Remove="Areas\Identity\Data\**" />
+    <EmbeddedResource Remove="Controllers\Admin\**" />
+    <EmbeddedResource Remove="Controllers\Customer\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Customer\**" />
+    <None Remove="Areas\Identity\Data\**" />
+    <None Remove="Controllers\Admin\**" />
+    <None Remove="Controllers\Customer\**" />
+    <None Remove="Views\Admin\**" />
+    <None Remove="Views\Customer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
@@ -143,11 +166,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Controllers\Admin\" />
-    <Folder Include="Controllers\Customer\" />
-    <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Customer\" />
+    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>

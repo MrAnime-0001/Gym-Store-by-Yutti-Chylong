@@ -1,8 +1,7 @@
-﻿@page
-@model Gym_Store.Pages.Categories.DeleteModel
+﻿@model Gym_Store.Models.Category
 
-<form method="post">
-    <input asp-for="Category.Id" type="hidden" />
+<form method="post" asp-action="DeleteConfirmed" asp-controller="Categories">
+    <input asp-for="Id" type="hidden" />
 
     <div class="border p-4 mt-4 bg-light">
         <div class="row pb-2">
@@ -12,8 +11,8 @@
 
         <!-- Category Name -->
         <div class="mb-3 row">
-            <label asp-for="Category.Name" class="col-form-label"></label>
-            <input asp-for="Category.Name" class="form-control custom-input" disabled />
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" disabled />
         </div>
 
         <div class="row">
@@ -21,7 +20,7 @@
                 <button type="submit" class="btn btn-danger form-control btn-custom">Delete</button>
             </div>
             <div class="col-6 col-md-3 mb-2">
-                <a asp-page="/Categories/Index" class="btn btn-secondary form-control">Back to List</a>
+                <a asp-action="Index" asp-controller="Categories" class="btn btn-secondary form-control">Back to List</a>
             </div>
         </div>
     </div>

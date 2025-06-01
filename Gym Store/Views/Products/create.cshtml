@@ -1,5 +1,4 @@
-﻿@page
-@model Gym_Store.Pages.Products.CreateModel
+﻿@model Gym_Store.Models.Product
 
 <form method="post" enctype="multipart/form-data">
     <div class="border p-4 mt-4 bg-light">
@@ -11,36 +10,35 @@
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.Name" class="col-form-label"></label>
-            <input asp-for="Product.Name" class="form-control custom-input" />
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.CategoryId" class="col-form-label"></label>
-            <select asp-for="Product.CategoryId" class="form-control custom-input"
-                    asp-items="Model.CategoryList">
+            <label asp-for="CategoryId" class="col-form-label"></label>
+            <select asp-for="CategoryId" class="form-control custom-input" asp-items="ViewBag.CategoryList">
                 <option value="">-- Select Category --</option>
             </select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.Quantity" class="col-form-label">Quantity</label>
-            <input asp-for="Product.Quantity" class="form-control custom-input" type="number" min="0" />
-            <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+            <label asp-for="Quantity" class="col-form-label">Quantity</label>
+            <input asp-for="Quantity" class="form-control custom-input" type="number" min="0" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.ServingSize" class="col-form-label">Serving Size</label>
-            <input asp-for="Product.ServingSize" class="form-control custom-input" />
-            <span asp-validation-for="Product.ServingSize" class="text-danger"></span>
+            <label asp-for="ServingSize" class="col-form-label">Serving Size</label>
+            <input asp-for="ServingSize" class="form-control custom-input" />
+            <span asp-validation-for="ServingSize" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">
-            <label asp-for="Product.Price" class="col-form-label"></label>
-            <input asp-for="Product.Price" class="form-control custom-input" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
+            <label asp-for="Price" class="col-form-label">Price</label>
+            <input asp-for="Price" class="form-control custom-input" />
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
         <div class="mb-3 row">
@@ -53,7 +51,7 @@
                 <button type="submit" class="btn btn-custom form-control">Create</button>
             </div>
             <div class="col-6 col-md-3">
-                <a asp-page="/Products/Index" class="btn btn-secondary border form-control">
+                <a asp-action="Index" class="btn btn-secondary border form-control">
                     Back to List
                 </a>
             </div>

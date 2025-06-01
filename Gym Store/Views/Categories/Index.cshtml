@@ -1,15 +1,13 @@
-﻿@page
-@model Gym_Store.Pages.Products.IndexModel
+﻿@model IEnumerable<Gym_Store.Models.Category>
 
 <div class="container">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Product List</h2>
+            <h2 class="text-primary">Category List</h2>
         </div>
         <div class="col-6 text-end">
-            <!-- Create button linking to the Create page -->
-            <a asp-page="/Products/Create" class="btn btn-custom">
-                <i class="bi bi-plus-circle"></i> Create New Product
+            <a asp-action="Create" class="btn btn-custom">
+                <i class="bi bi-plus-circle"></i> Create New Category
             </a>
         </div>
     </div>
@@ -17,38 +15,25 @@
     <table class="table table-bordered table-striped mt-3">
         <thead class="thead-custom">
             <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Serving Size</th>
-                <th>Price</th>
+                <th>Category Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.ProductList != null && Model.ProductList.Any())
+            @if (Model != null && Model.Any())
             {
-                @foreach (var obj in Model.ProductList.OrderBy(p => p.Name))
+                @foreach (var category in Model.OrderBy(c => c.Name))
                 {
                     <tr>
-                        <td>
-                            @if (!string.IsNullOrEmpty(obj.ImageUrl))
-                            {
-                                <img src="@obj.ImageUrl" alt="Product Image" width="60" height="60" style="object-fit:cover; border-radius:8px;" />
-                            }
-                        </td>
-                        <td>@obj.Name</td>
-                        <td>@obj.Category?.Name</td>
-                        <td>@obj.Quantity</td>
-                        <td>@obj.ServingSize</td>
-                        <td>@obj.Price.ToString("C")</td>
+                        <td>@category.Name</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-page="/Products/Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-warning">
+                                <!-- Edit Button -->
+                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-warning">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-                                <a asp-page="/Products/Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
+                                <!-- Delete Button -->
+                                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">
                                     <i class="bi bi-trash-fill"></i> Delete
                                 </a>
                             </div>
@@ -59,7 +44,7 @@
             else
             {
                 <tr>
-                    <td colspan="7" class="text-center text-danger">No products available</td>
+                    <td colspan="2" class="text-center text-danger">No categories available</td>
                 </tr>
             }
         </tbody>
@@ -67,7 +52,6 @@
 </div>
 
 <style>
-    /* Body background */
     body {
         background: linear-gradient(to right, #e0f7fa, #b2ebf2);
     }
@@ -76,13 +60,13 @@
         color: #ff7043 !important;
     }
 
-    /* Button Custom Styling */
     .btn-custom {
         background-color: #ff7043;
         border-color: #ff7043;
         border-radius: 20px;
         padding: 0.5rem 1.5rem;
         color: white;
+        font-weight: bold;
     }
 
         .btn-custom:hover {
@@ -90,18 +74,17 @@
             border-color: #f4511e;
         }
 
-    /* Table header background */
     .thead-custom {
         background-color: #ffe0b2;
         color: #3e2723;
     }
 
-    /* Table rows */
     table.table-bordered {
         border-color: #ff7043;
     }
 
-        table.table-bordered th, table.table-bordered td {
+        table.table-bordered th,
+        table.table-bordered td {
             border-color: #ff7043;
         }
 
@@ -111,5 +94,25 @@
 
     table.table-striped tbody tr:nth-child(even) {
         background-color: #ffecb3;
+    }
+
+    /* Custom Button Group Styling */
+    .btn-group {
+        display: flex;
+        gap: 5px;
+    }
+
+        .btn-group .btn {
+            border-radius: 8px;
+        }
+
+    /* Add some spacing around the table for better readability */
+    .table {
+        margin-top: 20px;
+    }
+
+    /* Add hover effect on table rows */
+    table tbody tr:hover {
+        background-color: #f4f4f4;
     }
 </style>

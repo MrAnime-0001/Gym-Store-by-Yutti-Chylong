@@ -1,0 +1,88 @@
+﻿@model Gym_Store.Models.Product
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+
+    <div class="border p-4 mt-4 bg-light">
+        <div class="row pb-2">
+            <h2 class="text-custom py-2">Edit Product</h2>
+            <hr />
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3 row">
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="CategoryId" class="col-form-label"></label>
+            <select asp-for="CategoryId" class="form-control custom-input" asp-items="@(ViewData["CategoryList"] as IEnumerable<SelectListItem>)">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="Quantity" class="col-form-label"></label>
+            <input asp-for="Quantity" class="form-control custom-input" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="ServingSize" class="col-form-label"></label>
+            <input asp-for="ServingSize" class="form-control custom-input" />
+            <span asp-validation-for="ServingSize" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="Price" class="col-form-label"></label>
+            <input asp-for="Price" class="form-control custom-input" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-form-label">Upload New Image</label>
+            <input type="file" name="ImageFile" class="form-control custom-input" />
+            <small class="form-text text-muted">Current image: @Model.ImageUrl</small>
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-md-3 mb-2">
+                <button type="submit" class="btn btn-custom form-control">Update</button>
+            </div>
+            <div class="col-6 col-md-3 mb-2">
+                <a asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .btn-custom {
+        background-color: #ff7043;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-custom:hover {
+            background-color: #f4511e;
+        }
+
+    .text-custom {
+        color: #006064;
+    }
+
+    .custom-input {
+        border-radius: 10px;
+    }
+</style>

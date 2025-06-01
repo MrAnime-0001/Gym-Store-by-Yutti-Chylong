@@ -1,8 +1,7 @@
-﻿@page
-@model Gym_Store.Pages.Products.DeleteModel
+﻿@model Gym_Store.Models.Product
 
 <form method="post">
-    <input asp-for="Product.Id" type="hidden" />
+    <input asp-for="Id" type="hidden" />
 
     <div class="border p-4 mt-4 bg-light">
         <div class="row pb-2">
@@ -12,32 +11,32 @@
 
         <!-- Product Name -->
         <div class="mb-3 row">
-            <label asp-for="Product.Name" class="col-form-label"></label>
-            <input asp-for="Product.Name" class="form-control custom-input" disabled />
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" disabled />
         </div>
 
         <!-- Product Category -->
         <div class="mb-3 row">
             <label class="col-form-label">Category</label>
-            <input value="@Model.Product.Category?.Name" class="form-control custom-input" disabled />
+            <input value="@Model.Category?.Name" class="form-control custom-input" disabled />
         </div>
 
         <!-- Product Quantity -->
         <div class="mb-3 row">
-            <label asp-for="Product.Quantity" class="col-form-label"></label>
-            <input asp-for="Product.Quantity" class="form-control custom-input" disabled />
+            <label asp-for="Quantity" class="col-form-label"></label>
+            <input asp-for="Quantity" class="form-control custom-input" disabled />
         </div>
 
         <!-- Product Serving Size -->
         <div class="mb-3 row">
-            <label asp-for="Product.ServingSize" class="col-form-label"></label>
-            <input asp-for="Product.ServingSize" class="form-control custom-input" disabled />
+            <label asp-for="ServingSize" class="col-form-label"></label>
+            <input asp-for="ServingSize" class="form-control custom-input" disabled />
         </div>
 
         <!-- Product Price -->
         <div class="mb-3 row">
-            <label asp-for="Product.Price" class="col-form-label"></label>
-            <input asp-for="Product.Price" class="form-control custom-input" disabled />
+            <label asp-for="Price" class="col-form-label"></label>
+            <input asp-for="Price" class="form-control custom-input" disabled />
         </div>
 
         <div class="row">
@@ -45,7 +44,7 @@
                 <button type="submit" class="btn btn-danger form-control btn-custom">Delete</button>
             </div>
             <div class="col-6 col-md-3 mb-2">
-                <a asp-page="/Products/Index" class="btn btn-secondary form-control">Back to List</a>
+                <a asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
             </div>
         </div>
     </div>

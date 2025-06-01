@@ -61,7 +61,7 @@
 
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                <a class="nav-link text-dark" asp-action="Index" asp-controller="Home">Home</a>
                             </li>
 
                             @if (User.IsInRole("Admin"))
@@ -71,14 +71,14 @@
                                         Admin Menu
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                        <li><a class="dropdown-item" asp-area="" asp-page="/Products/Index">Product Index</a></li>
-                                        <li><a class="dropdown-item" asp-area="" asp-page="/Categories/Index">Category Index</a></li>
+                                        <li><a class="dropdown-item" asp-action="Index" asp-controller="Products">Product Index</a></li>
+                                        <li><a class="dropdown-item" asp-action="Index" asp-controller="Categories">Category Index</a></li>
                                     </ul>
                                 </li>
                             }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-action="Privacy" asp-controller="Home">Privacy</a>
                             </li>
                         </ul>
 
@@ -119,7 +119,7 @@
 
     <footer class="border-top footer text-muted mt-4">
         <div class="container text-center">
-            This website was created by Yutti Vong Chylong. <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <a class="nav-link text-dark" asp-action="Privacy" asp-controller="Home">Privacy</a>
         </div>
     </footer>
 

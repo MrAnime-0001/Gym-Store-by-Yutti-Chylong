@@ -1,7 +1,6 @@
-﻿@page
-@model Gym_Store.Pages.Categories.CreateModel
+﻿@model Gym_Store.Models.Category
 
-<form method="post">
+<form method="post" asp-action="Create" asp-controller="Categories">
     <div class="border p-4 mt-4 bg-light">
         <div class="row pb-2">
             <h2 class="text-custom py-2">Create Category</h2>
@@ -11,9 +10,9 @@
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <div class="mb-3 row">
-            <label asp-for="Category.Name" class="col-form-label"></label>
-            <input asp-for="Category.Name" class="form-control custom-input" />
-            <span asp-validation-for="Category.Name" class="text-danger"></span>
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="row">
@@ -21,7 +20,7 @@
                 <button type="submit" class="btn btn-custom form-control">Create</button>
             </div>
             <div class="col-6 col-md-3">
-                <a asp-page="/Categories/Index" class="btn btn-secondary border form-control">
+                <a asp-action="Index" asp-controller="Categories" class="btn btn-secondary border form-control">
                     Back to List
                 </a>
             </div>
