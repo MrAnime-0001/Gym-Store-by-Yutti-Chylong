@@ -15,11 +15,24 @@ namespace Gym_Store.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: /Cart
         public IActionResult Index()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            return View(cart); // Make sure Views/Cart/Index.cshtml exists
+            var cartItems = CartSessionHelper.GetCart(HttpContext.Session);
+
+            var model = cartItems.Select(ci =>
+            {
+                var product = _dbContext.Products.Find(ci.ProductId);
+                return new CartItemViewModel
+                {
+                    ProductId = ci.ProductId,
+                    Name = product.Name,
+                    ImageUrl = product.ImageUrl, // or ImagePath
+                    Price = product.Price,
+                    Quantity = ci.Quantity
+                };
+            }).ToList();
+
+            return View(model);
         }
 
         public class ProductRequest

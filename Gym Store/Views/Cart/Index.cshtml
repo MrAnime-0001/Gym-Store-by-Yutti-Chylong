@@ -1,6 +1,8 @@
-﻿@model List<Gym_Store.Models.CartItem>
+﻿@model List<Gym_Store.Models.CartItemViewModel>
 
-<h2>Your Cart</h2>
+<h2 class="text-center mb-4" style="color:#ff7043; border-bottom:2px solid #ff7043; padding-bottom:0.5rem;">
+    Your Cart
+</h2>
 
 @if (!Model.Any())
 {
@@ -8,25 +10,182 @@
 }
 else
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="table-responsive hover-highlight">
+        <table class="product-table table-hover-effect mx-auto" style="max-width: 900px;">
+            <thead>
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.Quantity</td>
-                    <td>@(item.Price* item.Quantity).ToString("C")</td>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.ImageUrl" alt="@item.Name" class="product-img" />
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Price* item.Quantity).ToString("C")</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="removeFromCart(@item.ProductId)">Remove</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-end" style="font-weight:bold;">Total Amount:</td>
+                    <td colspan="2" style="font-weight:bold;">
+                        @Model.Sum(i => i.Price * i.Quantity).ToString("C")
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-success btn-lg" onclick="confirmPurchase()">Confirm Purchase</button>
+    </div>
+}
+
+@section Styles {
+    <style>
+        .hover-highlight {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border-radius: 12px;
+        }
+
+            .hover-highlight:hover {
+                box-shadow: 0 8px 24px rgba(255, 112, 67, 0.3);
+                transform: scale(1.01);
             }
-        </tbody>
-    </table>
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff8e1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+            .product-table th,
+            .product-table td {
+                padding: 1rem;
+                text-align: center;
+                border: 1px solid #ffe0b2;
+                vertical-align: middle;
+                transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            }
+
+            .product-table th {
+                background-color: #ffe0b2;
+                color: #3e2723;
+            }
+
+            .product-table td {
+                background-color: #fffde7;
+                color: #3e2723;
+            }
+
+            .product-table tbody tr {
+                transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            }
+
+                .product-table tbody tr:hover {
+                    background-color: #fff3e0;
+                    transform: scale(1.005);
+                    box-shadow: 0 6px 16px rgba(255, 112, 67, 0.2);
+                    cursor: pointer;
+                }
+
+                    .product-table tbody tr:hover td {
+                        border-color: #ffab91;
+                    }
+
+        .product-img {
+            max-height: 80px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+
+        .product-table tbody tr:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: #d43f3a;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+        }
+
+            .btn-danger:hover {
+                background-color: #c9302c;
+                border-color: #ac2925;
+                box-shadow: 0 0 8px rgba(201, 48, 44, 0.3);
+            }
+
+        .btn-success {
+            background-color: #ff7043;
+            border-color: #ff7043;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+        }
+
+            .btn-success:hover {
+                background-color: #f4511e;
+                border-color: #f4511e;
+                box-shadow: 0 0 10px rgba(244, 81, 30, 0.3);
+            }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        function removeFromCart(productId) {
+            fetch('/api/cart/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            })
+            .then(res => {
+                if (res.ok) {
+                    toastr.success('Item removed from cart');
+                    location.reload();
+                } else {
+                    toastr.error('Failed to remove item');
+                }
+            })
+            .catch(() => toastr.error('Error removing item'));
+        }
+
+        function confirmPurchase() {
+            fetch('/api/cart/confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => {
+                if (res.ok) {
+                    toastr.success('Purchase confirmed! Thank you.');
+                    location.href = '/';
+                } else {
+                    toastr.error('Failed to confirm purchase');
+                }
+            })
+            .catch(() => toastr.error('Error confirming purchase'));
+        }
+    </script>
 }
