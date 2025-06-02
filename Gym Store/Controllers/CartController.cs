@@ -1,18 +1,22 @@
 ﻿using Gym_Store.Data;
+using Gym_Store.Helpers;
 using Gym_Store.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Gym_Store.Helpers;
 
 namespace Gym_Store.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CartController(ApplicationDbContext dbContext)
+        public CartController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -26,7 +30,7 @@ namespace Gym_Store.Controllers
                 {
                     ProductId = ci.ProductId,
                     Name = product.Name,
-                    ImageUrl = product.ImageUrl, // or ImagePath
+                    ImageUrl = product.ImageUrl,
                     Price = product.Price,
                     Quantity = ci.Quantity
                 };
@@ -62,16 +66,44 @@ namespace Gym_Store.Controllers
         }
 
         [HttpPost]
-        public IActionResult Remove(int productId)
+        [Route("api/cart/remove")]
+        public IActionResult Remove([FromBody] ProductRequest request)
         {
             var cart = CartSessionHelper.GetCart(HttpContext.Session);
-            var item = cart.FirstOrDefault(x => x.ProductId == productId);
+            var item = cart.FirstOrDefault(x => x.ProductId == request.ProductId);
             if (item != null)
             {
                 cart.Remove(item);
                 CartSessionHelper.SaveCart(HttpContext.Session, cart);
+                return Ok(new { message = "Item removed from cart." });
             }
-            return RedirectToAction("Index");
+            return NotFound(new { message = "Item not found in cart." });
+        }
+
+        [HttpPost]
+        [Route("api/cart/confirm")]
+        public async Task<IActionResult> ConfirmPurchase()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                // Return JSON error message for not logged in
+                return Json(new { success = false, message = "You must log in to confirm the purchase." });
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains("Admin") && !roles.Contains("Customer"))
+            {
+                return Forbid();
+            }
+
+            // Your purchase processing logic here...
+
+            // Clear the cart after successful purchase
+            CartSessionHelper.SaveCart(HttpContext.Session, new List<CartItem>());
+
+            // Return success with redirect URL
+            return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
         }
 
         [HttpGet]
