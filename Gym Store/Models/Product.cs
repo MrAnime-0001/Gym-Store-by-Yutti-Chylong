@@ -10,11 +10,10 @@ namespace Gym_Store.Models
         [Display(Name = "Product Name")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "Product Category")]
         public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         [Required]
         [Display(Name = "Stock Level")]

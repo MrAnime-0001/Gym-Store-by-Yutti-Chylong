@@ -30,7 +30,9 @@ namespace Gym_Store.Controllers
             return View(products);
         }
 
-        // Create Action: Display the create form
+        // ProductsController.cs - Create methods
+
+        // GET: Create Action
         public IActionResult Create()
         {
             var categoryList = _dbContext.Categories
@@ -40,32 +42,63 @@ namespace Gym_Store.Controllers
                     Value = c.Id.ToString()
                 }).ToList();
 
-            ViewData["CategoryList"] = categoryList; // Use ViewData here
+            ViewData["CategoryList"] = categoryList;
             return View(new Product());
         }
 
-        // Create Action: Handle form submission to create a new product
+        // POST: Create Action
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile? imageFile)
         {
-            if (product.CategoryId == 0)
+            // Remove Category navigation property from validation as it's not set during model binding
+            ModelState.Remove("Category");
+
+            // Debug: Check what CategoryId we received
+            Console.WriteLine($"Received CategoryId: {product.CategoryId}");
+
+            // Manual validation for CategoryId
+            if (product.CategoryId <= 0)
             {
-                ModelState.AddModelError("Product.CategoryId", "Please select a category.");
+                ModelState.AddModelError("CategoryId", "Please select a category.");
+            }
+
+            // Check if the selected category exists
+            var categoryExists = await _dbContext.Categories.AnyAsync(c => c.Id == product.CategoryId);
+            if (product.CategoryId > 0 && !categoryExists)
+            {
+                ModelState.AddModelError("CategoryId", "Selected category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
+                // Debug: Show all validation errors
+                foreach (var modelError in ModelState)
+                {
+                    if (modelError.Value.Errors.Count > 0)
+                    {
+                        Console.WriteLine($"Field: {modelError.Key}");
+                        foreach (var error in modelError.Value.Errors)
+                        {
+                            Console.WriteLine($"  Error: {error.ErrorMessage}");
+                        }
+                    }
+                }
+
+                // Reload categories for the view
                 var categoryList = _dbContext.Categories
                     .Select(c => new SelectListItem
                     {
                         Text = c.Name,
-                        Value = c.Id.ToString()
+                        Value = c.Id.ToString(),
+                        Selected = c.Id == product.CategoryId
                     }).ToList();
 
-                ViewData["CategoryList"] = categoryList; // Use ViewData here
+                ViewData["CategoryList"] = categoryList;
                 return View(product);
             }
 
+            // Handle image upload
             if (imageFile != null && imageFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Gym_Store", "Images");

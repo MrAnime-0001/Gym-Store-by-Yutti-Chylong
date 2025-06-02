@@ -1,13 +1,15 @@
 ﻿@model Gym_Store.Models.Product
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" asp-action="Create">
+    @Html.AntiForgeryToken()
+
     <div class="border p-4 mt-4 bg-light">
         <div class="row pb-2">
             <h2 class="text-custom py-2">Create Product</h2>
             <hr />
         </div>
 
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="mb-3 row">
             <label asp-for="Name" class="col-form-label"></label>
@@ -17,10 +19,14 @@
 
         <div class="mb-3 row">
             <label asp-for="CategoryId" class="col-form-label"></label>
-            <select asp-for="CategoryId" class="form-control custom-input" asp-items="ViewBag.CategoryList">
-                <option value="">-- Select Category --</option>
+            <select asp-for="CategoryId" class="form-control custom-input"
+                    asp-items="@(ViewData["CategoryList"] as IEnumerable<SelectListItem>)">
+                <option value="0">-- Select Category --</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+            @* Debug info *@
+            <small class="text-muted">Categories loaded: @((ViewData["CategoryList"] as IEnumerable<SelectListItem>)?.Count() ?? 0)</small>
         </div>
 
         <div class="mb-3 row">
