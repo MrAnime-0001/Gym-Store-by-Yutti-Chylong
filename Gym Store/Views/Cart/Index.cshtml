@@ -31,7 +31,13 @@ else
                         </td>
                         <td>@item.Name</td>
                         <td>@item.Price.ToString("C")</td>
-                        <td>@item.Quantity</td>
+                        <td>
+                            <input type="number"
+                                   min="1"
+                                   value="@item.Quantity"
+                                   onchange="updateQuantity(@item.ProductId, this.value)"
+                                   style="width: 60px; text-align:center;" />
+                        </td>
                         <td>@(item.Price* item.Quantity).ToString("C")</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="removeFromCart(@item.ProductId)">Remove</button>
@@ -187,6 +193,30 @@ else
                 }
             })
             .catch(() => toastr.error('Error confirming purchase'));
+        }
+
+                function updateQuantity(productId, quantity) {
+            quantity = parseInt(quantity);
+            if (isNaN(quantity) || quantity < 1) {
+                toastr.error('Quantity must be a positive number');
+                location.reload(); // revert input to original if invalid
+                return;
+            }
+
+            fetch('/api/cart/updateQuantity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, quantity })
+            })
+            .then(res => {
+                if (res.ok) {
+                    toastr.success('Quantity updated');
+                    location.reload();
+                } else {
+                    toastr.error('Failed to update quantity');
+                }
+            })
+            .catch(() => toastr.error('Error updating quantity'));
         }
     </script>
 }

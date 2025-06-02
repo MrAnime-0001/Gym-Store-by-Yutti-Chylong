@@ -44,6 +44,12 @@ namespace Gym_Store.Controllers
             public int ProductId { get; set; }
         }
 
+        public class UpdateCartQuantityRequest
+        {
+            public int ProductId { get; set; }
+            public int Quantity { get; set; }
+        }
+
         [HttpPost]
         [Route("api/cart/add")]
         public IActionResult Add([FromBody] ProductRequest request)
@@ -79,6 +85,29 @@ namespace Gym_Store.Controllers
             }
             return NotFound(new { message = "Item not found in cart." });
         }
+
+        [HttpPost]
+        [Route("api/cart/updateQuantity")]
+        public IActionResult UpdateQuantity([FromBody] UpdateCartQuantityRequest request)
+        {
+            if (request.Quantity < 1)
+                return BadRequest("Quantity must be at least 1.");
+
+            var cart = CartSessionHelper.GetCart(HttpContext.Session); // List<CartItem>
+
+            var item = cart.FirstOrDefault(x => x.ProductId == request.ProductId);
+            if (item == null)
+            {
+                return NotFound("Item not found in cart.");
+            }
+
+            item.Quantity = request.Quantity;
+
+            CartSessionHelper.SaveCart(HttpContext.Session, cart);
+
+            return Ok();
+        }
+
 
         [HttpPost]
         [Route("api/cart/confirm")]
@@ -121,24 +150,26 @@ namespace Gym_Store.Controllers
             // Add order items & update product stock quantities
             foreach (var item in cartItems)
             {
+                var product = _dbContext.Products.FirstOrDefault(p => p.Id == item.ProductId);
+                if (product == null)
+                {
+                    return Json(new { success = false, message = $"Product with ID {item.ProductId} no longer exists." });
+                }
+
+                if (item.Quantity > product.Quantity)
+                {
+                    return Json(new { success = false, message = $"Not enough stock for {product.Name}. Available: {product.Quantity}" });
+                }
+
+                product.Quantity -= item.Quantity;
+                _dbContext.Products.Update(product);
+
                 order.OrderItems.Add(new OrderItem
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
                     Price = item.Price
                 });
-
-                // Update product quantity in database
-                var product = await _dbContext.Products.FindAsync(item.ProductId);
-                if (product != null)
-                {
-                    product.Quantity -= item.Quantity;
-                    if (product.Quantity < 0)
-                    {
-                        product.Quantity = 0; // prevent negative stock
-                    }
-                    _dbContext.Products.Update(product);
-                }
             }
 
             // Save order and product quantity changes to DB
