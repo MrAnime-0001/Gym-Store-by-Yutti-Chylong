@@ -1,6 +1,7 @@
-using Gym_Store.Data;
+﻿using Gym_Store.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http; // Needed for session and cookies
 
 namespace Gym_Store
 {
@@ -11,14 +12,23 @@ namespace Gym_Store
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews(); // Add MVC services for controllers and views
-            builder.Services.AddRazorPages(); // If you are also using Razor Pages
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>() // Enable roles
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // ✅ Add session and cookie services
+            builder.Services.AddSession();
+            builder.Services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            });
 
             var app = builder.Build();
 
@@ -34,15 +44,18 @@ namespace Gym_Store
 
             app.UseRouting();
 
+            // ✅ Enable cookie policy and session
+            app.UseCookiePolicy();
+            app.UseSession();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Map MVC Controllers
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"); // Set default route for HomeController
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.MapRazorPages(); // If you also use Razor Pages, map them here
+            app.MapRazorPages();
 
             // Seed roles and default admin user
             using (var scope = app.Services.CreateScope())
@@ -69,7 +82,6 @@ namespace Gym_Store
                 }
             }
 
-            // Create a default admin user if not already created
             var adminEmail = "admin@email.com";
             var adminPassword = "AdminPassword123!";
 
@@ -90,7 +102,6 @@ namespace Gym_Store
                 }
                 else
                 {
-                    // Optionally log or display errors
                     throw new Exception("Failed to create admin user: " + string.Join(", ", result.Errors.Select(e => e.Description)));
                 }
             }

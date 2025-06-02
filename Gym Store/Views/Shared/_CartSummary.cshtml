@@ -1,0 +1,23 @@
+﻿<script>
+    function updateCartCount() {
+        fetch('/Cart/GetCartCount')
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.getElementById('cartCountBadge');
+                if (badge) {
+                    badge.textContent = data.count;
+                }
+            })
+            .catch(error => console.error('Error fetching cart count:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
+
+
+<a class="nav-link text-white position-relative" asp-controller="Cart" asp-action="Index">
+    <i class="bi bi-cart4"></i> Cart
+    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle" id="cartCountBadge">
+        0
+    </span>
+</a>

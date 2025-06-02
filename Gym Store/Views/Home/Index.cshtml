@@ -257,7 +257,7 @@
                                 <td>@product.ServingSize</td>
                                 <td class="product-price">@product.Price.ToString("C")</td>
                                 <td>
-                                    <button class="btn btn-success" onclick="showPurchaseAlert('@product.Name')">Purchase</button>
+                                    <button class="btn btn-success" onclick="addToCart(@product.Id, '@product.Name')">Purchase</button>
                                     <button class="btn btn-info btn-view-data mt-2" onclick="viewProductData(this)">View Data</button>
                                 </td>
                             </tr>
@@ -300,7 +300,6 @@
             myModal.show();
         }
 
-        // ... (your existing filter/sort script unchanged) ...
         function filterAndSortTable(categoryId) {
             const categorySection = document.getElementById(`category-${categoryId}`);
             const table = document.getElementById(`table-${categoryId}`);
@@ -367,5 +366,21 @@
                 }
             });
         });
+        function addToCart(productId, productName) {
+            console.log(productId); // Debugging
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            })
+            .then(res => res.ok ? res.json() : Promise.reject("Failed to add"))
+            .then(data => {
+                toastr.success(data.message || `Added ${productName} to cart`);
+            })
+            .catch(err => {
+                toastr.error(`Could not add ${productName} to cart`);
+                console.error(err); // Debugging
+            });
+        }
     </script>
 }

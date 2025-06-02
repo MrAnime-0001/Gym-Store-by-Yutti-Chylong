@@ -82,6 +82,10 @@
                             </li>
                         </ul>
 
+                        <li class="nav-item">
+                            <partial name="_CartSummary" />
+                        </li>
+
                         <ul class="navbar-nav">
                             @if (SignInManager.IsSignedIn(User))
                             {
