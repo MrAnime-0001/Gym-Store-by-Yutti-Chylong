@@ -4,31 +4,83 @@
     ViewData["Title"] = "Home - Gym_Store";
 }
 
-<!-- Bootstrap Modal for Product Info -->
-<div class="modal fade" id="productDataModal" tabindex="-1" aria-labelledby="productDataModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <!-- Wrap the entire modal content to make the hover effect work for both header and body together -->
-        <div class="modal-content modal-hover-effect">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productDataModalLabel">Product Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+/* ... keep your existing modal, styles, header, and container above unchanged ... */
+
+<div class="container">
+    @foreach (var categoryGroup in Model)
+    {
+        var categoryId = categoryGroup.Key.Replace(" ", "-"); // safe HTML id
+        var products = categoryGroup.Value.ToList();
+        var totalQuantity = products.Sum(p => p.Quantity);
+
+        <div id="category-@categoryId" class="category-section" style="@(totalQuantity <= 0 ? "display:none;" : "")">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="category-title mb-0">@categoryGroup.Key</h2>
+                @if (products.Count >= 2)
+                {
+                    <div class="filters-container">
+                        <input type="text" placeholder="Search Name" class="form-control form-control-sm filter-name" data-category="@categoryId" style="width: 150px;" />
+                        <select class="form-select form-select-sm filter-sort" data-category="@categoryId" style="width: 180px;">
+                            <option value="">Sort By</option>
+                            <option value="name-asc">Name Ascending</option>
+                            <option value="name-desc">Name Descending</option>
+                            <option value="price-asc">Price Ascending</option>
+                            <option value="price-desc">Price Descending</option>
+                        </select>
+                    </div>
+                }
             </div>
-            <div class="modal-body">
-                <div class="text-center">
-                    <img id="modalProductImage" src="" alt="" class="img-fluid mb-3 product-enlarged" style="max-height: 300px; transition: transform 0.3s ease;" />
-                </div>
-                <p><strong>Name:</strong> <span id="modalProductName"></span></p>
-                <p><strong>Category:</strong> <span id="modalProductCategory"></span></p>
-                <p><strong>Quantity:</strong> <span id="modalProductQuantity"></span></p>
-                <p><strong>Serving Size:</strong> <span id="modalProductServing"></span></p>
-                <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+
+            <div class="table-hover-effect table-responsive mb-5">
+                <table class="product-table" id="table-@categoryId">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Serving Size</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in products)
+                        {
+                            // Add sold-out-row class if quantity is 0
+                            var rowClass = product.Quantity == 0 ? "sold-out-row" : "";
+                            <tr class="@rowClass">
+                                <td>
+                                    <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img"
+                                         onclick="viewProductData(this.closest('tr'))" />
+                                </td>
+                                <td class="product-name">@product.Name</td>
+                                <td class="product-category">@product.Category?.Name</td>
+                                <td>@product.Quantity</td>
+                                <td>@product.ServingSize</td>
+                                <td class="product-price">@product.Price.ToString("C")</td>
+                                <td>
+                                    @if (product.Quantity == 0)
+                                    {
+                                        <button class="btn btn-danger" disabled>Sold Out</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-success" onclick="addToCart(@product.Id, '@product.Name')">Purchase</button>
+                                    }
+                                    <button class="btn btn-info btn-view-data mt-2" onclick="viewProductData(this)">View Data</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <style>
-    /* Body: soft cyan gradient */
+        /* Body: soft cyan gradient */
     body {
         background: linear-gradient(to right, #e0f7fa, #b2ebf2);
     }
@@ -83,11 +135,13 @@
     .product-img {
         max-height: 80px;
         object-fit: contain;
-        transition: transform 0.2s ease;
+        transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .product-table tbody tr:hover .product-img {
-        transform: scale(1.05);
+        transform: scale(1.1);
+        z-index: 10;
     }
 
     /* Purchase button: deep orange */
@@ -141,7 +195,7 @@
     .btn-view-data {
         background-color: #0071c5;
         border-color: #006bb3;
-        color: white; /* Keep text white */
+        color: white;
         border-radius: 20px;
         padding: 0.4rem 1rem;
         transition: background-color 0.2s ease;
@@ -150,18 +204,8 @@
         .btn-view-data:hover {
             background-color: #005fa3;
             border-color: #005fa3;
-            color: white !important; /* Prevent color change on hover */
+            color: white !important;
         }
-
-    /* Add a hover effect to product images */
-    .product-img {
-        transition: transform 0.3s ease, transform 0.2s ease;
-    }
-
-    .product-table tbody tr:hover .product-img {
-        transform: scale(1.1);
-        z-index: 10;
-    }
 
     /* Hover effect for image inside modal */
     .product-enlarged {
@@ -173,112 +217,66 @@
         text-align: center;
     }
 
-    /* Add hover effect on images to make them interactive */
-    .product-img:hover {
-        transform: scale(1.1);
-        cursor: pointer;
-    }
-
-    /* New hover effect for modal content (body only) */
+    /* Modal hover effect */
     .modal-hover-effect {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Disable hover effect on the header */
     .modal-header:hover {
-        transform: none; /* Prevent scaling on hover */
+        transform: none;
         box-shadow: none;
     }
 
     .modal-hover-effect:hover {
-        transform: scale(1.05); /* Slightly enlarge the entire modal */
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
-    /* Smooth transition for modal header and body together */
     .modal-body:hover {
-        transform: scale(1.05); /* Slightly enlarge the body */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
-    /* Modal body and header scaling can be adjusted separately if needed */
+    /* Dim and disable interaction for sold out rows */
+    .sold-out-row {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    /* Keep View Data button enabled even in sold out rows */
+    .sold-out-row .btn-view-data {
+        pointer-events: auto;
+        opacity: 1;
+    }
+
+    /* Sold Out button: red with same size and style as purchase */
+    .btn-danger {
+        background-color: #d9534f; /* Bootstrap danger red */
+        border-color: #d9534f;
+        border-radius: 20px;
+        padding: 0.4rem 1rem;
+        color: white;
+        cursor: default;
+    }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+            border-color: #c9302c;
+        }
+
 </style>
-
-<h1 class="page-title text-center mb-5">💪 Our Products by Category 💪</h1>
-
-<div class="container">
-    @foreach (var categoryGroup in Model)
-    {
-        var categoryId = categoryGroup.Key.Replace(" ", "-"); // safe HTML id
-        var products = categoryGroup.Value.ToList();
-        var totalQuantity = products.Sum(p => p.Quantity);
-
-        <div id="category-@categoryId" class="category-section">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h2 class="category-title mb-0">@categoryGroup.Key</h2>
-                @if (products.Count >= 2)
-                {
-                    <div class="filters-container">
-                        <input type="text" placeholder="Search Name" class="form-control form-control-sm filter-name" data-category="@categoryId" style="width: 150px;" />
-                        <select class="form-select form-select-sm filter-sort" data-category="@categoryId" style="width: 180px;">
-                            <option value="">Sort By</option>
-                            <option value="name-asc">Name Ascending</option>
-                            <option value="name-desc">Name Descending</option>
-                            <option value="price-asc">Price Ascending</option>
-                            <option value="price-desc">Price Descending</option>
-                        </select>
-                    </div>
-                }
-            </div>
-
-            <div class="table-hover-effect table-responsive mb-5">
-                <table class="product-table" id="table-@categoryId">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Quantity</th>
-                            <th>Serving Size</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var product in products)
-                        {
-                            <tr>
-                                <td>
-                                    <img src="@product.ImageUrl" alt="@product.Name" class="img-fluid product-img" />
-                                </td>
-                                <td class="product-name">@product.Name</td>
-                                <td class="product-category">@product.Category?.Name</td>
-                                <td>@product.Quantity</td>
-                                <td>@product.ServingSize</td>
-                                <td class="product-price">@product.Price.ToString("C")</td>
-                                <td>
-                                    <button class="btn btn-success" onclick="addToCart(@product.Id, '@product.Name')">Purchase</button>
-                                    <button class="btn btn-info btn-view-data mt-2" onclick="viewProductData(this)">View Data</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    }
-</div>
 
 @section Scripts {
     <script>
+        // Show toast success when purchase button clicked
         function showPurchaseAlert(productName) {
             toastr.success(`Pretend purchased "${productName}"!`);
         }
 
-        // Modal View Data function
-        function viewProductData(btn) {
-            // Find the row from the clicked button
-            const row = btn.closest('tr');
+        // Show modal with product info
+        function viewProductData(element) {
+            // element can be a button or a row
+            const row = element.tagName === 'TR' ? element : element.closest('tr');
             const img = row.querySelector('.product-img').src;
             const name = row.querySelector('.product-name').textContent;
             const category = row.querySelector('.product-category').textContent;
@@ -286,7 +284,6 @@
             const serving = row.cells[4].textContent;
             const price = row.querySelector('.product-price').textContent;
 
-            // Set modal content
             document.getElementById('modalProductImage').src = img;
             document.getElementById('modalProductImage').alt = name;
             document.getElementById('modalProductName').textContent = name;
@@ -295,11 +292,11 @@
             document.getElementById('modalProductServing').textContent = serving;
             document.getElementById('modalProductPrice').textContent = price;
 
-            // Show the modal
             var myModal = new bootstrap.Modal(document.getElementById('productDataModal'));
             myModal.show();
         }
 
+        // Filter and sort products in a category table
         function filterAndSortTable(categoryId) {
             const categorySection = document.getElementById(`category-${categoryId}`);
             const table = document.getElementById(`table-${categoryId}`);
@@ -313,13 +310,16 @@
 
             let rows = Array.from(table.tBodies[0].rows);
 
+            // Filter by name
             rows.forEach(row => {
                 const nameCell = row.querySelector('.product-name').textContent.toLowerCase();
                 row.style.display = nameCell.includes(filterName) ? '' : 'none';
             });
 
+            // Filter visible rows only for sorting
             rows = rows.filter(row => row.style.display !== 'none');
 
+            // Sort rows
             if (sortValue) {
                 rows.sort((a, b) => {
                     if (sortValue.startsWith('name')) {
@@ -329,45 +329,21 @@
                         if (nameA > nameB) return sortValue === 'name-asc' ? 1 : -1;
                         return 0;
                     } else if (sortValue.startsWith('price')) {
-                        const priceA = parseFloat(a.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g,""));
-                        const priceB = parseFloat(b.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g,""));
+                        const priceA = parseFloat(a.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g, ""));
+                        const priceB = parseFloat(b.querySelector('.product-price').textContent.replace(/[^0-9.-]+/g, ""));
                         return sortValue === 'price-asc' ? priceA - priceB : priceB - priceA;
                     }
                     return 0;
                 });
             }
 
+            // Append sorted rows back to tbody
             const tbody = table.tBodies[0];
             rows.forEach(row => tbody.appendChild(row));
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.category-section').forEach(section => {
-                const categoryId = section.id.replace('category-', '');
-                const table = document.getElementById(`table-${categoryId}`);
-                if (!table) return;
-
-                let totalQuantity = 0;
-                Array.from(table.tBodies[0].rows).forEach(row => {
-                    const qty = parseInt(row.cells[3].textContent);
-                    totalQuantity += qty;
-                });
-
-                if (totalQuantity <= 0) {
-                    section.style.display = 'none';
-                }
-
-                const nameInput = section.querySelector('.filter-name');
-                const sortSelect = section.querySelector('.filter-sort');
-
-                if (nameInput && sortSelect) {
-                    nameInput.addEventListener('input', () => filterAndSortTable(categoryId));
-                    sortSelect.addEventListener('change', () => filterAndSortTable(categoryId));
-                }
-            });
-        });
+        // Add product to cart with API call
         function addToCart(productId, productName) {
-            console.log(productId); // Debugging
             fetch('/api/cart/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -379,8 +355,38 @@
             })
             .catch(err => {
                 toastr.error(`Could not add ${productName} to cart`);
-                console.error(err); // Debugging
+                console.error(err);
             });
         }
+
+        // On page load, set up event listeners and hide empty categories
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.category-section').forEach(section => {
+                const categoryId = section.id.replace('category-', '');
+                const table = document.getElementById(`table-${categoryId}`);
+                if (!table) return;
+
+                // Hide category if total quantity is 0 (already handled inline style, but keep for robustness)
+                let totalQuantity = 0;
+                Array.from(table.tBodies[0].rows).forEach(row => {
+                    totalQuantity += parseInt(row.cells[3].textContent, 10);
+                });
+                if (totalQuantity <= 0) {
+                    section.style.display = 'none';
+                    return;
+                }
+
+                // Attach filter and sort event handlers if inputs exist
+                const nameInput = document.querySelector(`.filter-name[data-category="${categoryId}"]`);
+                const sortSelect = document.querySelector(`.filter-sort[data-category="${categoryId}"]`);
+
+                if (nameInput) {
+                    nameInput.addEventListener('input', () => filterAndSortTable(categoryId));
+                }
+                if (sortSelect) {
+                    sortSelect.addEventListener('change', () => filterAndSortTable(categoryId));
+                }
+            });
+        });
     </script>
 }

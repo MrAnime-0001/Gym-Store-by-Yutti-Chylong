@@ -181,10 +181,8 @@ else
             .then(data => {
                 if (data.success) {
                     toastr.success('Purchase confirmed! Thank you.');
-                    // Redirect to home
                     window.location.href = data.redirectUrl;
                 } else {
-                    // Show error toast and remain on cart page
                     toastr.error(data.message || 'You must log in to confirm purchase.');
                 }
             })

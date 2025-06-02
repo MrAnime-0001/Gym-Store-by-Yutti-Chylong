@@ -87,7 +87,6 @@ namespace Gym_Store.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                // Return JSON error message for not logged in
                 return Json(new { success = false, message = "You must log in to confirm the purchase." });
             }
 
@@ -97,12 +96,58 @@ namespace Gym_Store.Controllers
                 return Forbid();
             }
 
-            // Your purchase processing logic here...
+            var cartItems = CartSessionHelper.GetCart(HttpContext.Session);
+            if (cartItems == null || !cartItems.Any())
+            {
+                return Json(new { success = false, message = "Your cart is empty." });
+            }
 
-            // Clear the cart after successful purchase
+            // Calculate total amount
+            decimal totalAmount = 0m;
+            foreach (var item in cartItems)
+            {
+                totalAmount += item.Price * item.Quantity;
+            }
+
+            // Create Order entity
+            var order = new Order
+            {
+                UserId = user.Id,
+                OrderDate = DateTime.UtcNow,
+                TotalAmount = totalAmount,
+                OrderItems = new List<OrderItem>()
+            };
+
+            // Add order items & update product stock quantities
+            foreach (var item in cartItems)
+            {
+                order.OrderItems.Add(new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                });
+
+                // Update product quantity in database
+                var product = await _dbContext.Products.FindAsync(item.ProductId);
+                if (product != null)
+                {
+                    product.Quantity -= item.Quantity;
+                    if (product.Quantity < 0)
+                    {
+                        product.Quantity = 0; // prevent negative stock
+                    }
+                    _dbContext.Products.Update(product);
+                }
+            }
+
+            // Save order and product quantity changes to DB
+            _dbContext.Orders.Add(order);
+            await _dbContext.SaveChangesAsync();
+
+            // Clear cart session
             CartSessionHelper.SaveCart(HttpContext.Session, new List<CartItem>());
 
-            // Return success with redirect URL
             return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
         }
 
