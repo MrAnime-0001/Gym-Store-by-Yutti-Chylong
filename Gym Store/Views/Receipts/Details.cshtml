@@ -1,0 +1,35 @@
+﻿@model Gym_Store.Models.Order
+@{
+    ViewData["Title"] = "Receipt Details";
+}
+
+<h2>Receipt Details</h2>
+
+<p><strong>Date:</strong> @Model.OrderDate.ToLocalTime().ToShortDateString()</p>
+<p><strong>Total:</strong> @Model.TotalAmount.ToString("C")</p>
+
+<h4>Items</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Product?.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@(item.Quantity* item.Price).ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-action="Index">Back to Receipts</a>
+<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Go to Home</a>

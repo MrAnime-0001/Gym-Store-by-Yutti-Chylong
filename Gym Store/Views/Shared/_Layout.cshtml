@@ -88,6 +88,13 @@
                             <partial name="_CartSummary" />
                         </li>
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Receipts" asp-action="Index">Receipts</a>
+                            </li>
+                        }
+
                         <ul class="navbar-nav">
                             @if (SignInManager.IsSignedIn(User))
                             {

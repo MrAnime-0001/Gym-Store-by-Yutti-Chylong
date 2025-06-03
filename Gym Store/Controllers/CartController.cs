@@ -4,10 +4,12 @@ using Gym_Store.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace Gym_Store.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -50,15 +52,12 @@ namespace Gym_Store.Controllers
             public int Quantity { get; set; }
         }
 
-        [HttpPost]
-        [Route("api/cart/add")]
+        [HttpPost("api/cart/add")]
         public IActionResult Add([FromBody] ProductRequest request)
         {
             var product = _dbContext.Products.Find(request.ProductId);
             if (product == null)
-            {
                 return NotFound();
-            }
 
             var cartItem = new CartItem
             {
@@ -67,12 +66,12 @@ namespace Gym_Store.Controllers
                 Price = product.Price,
                 Quantity = 1
             };
+
             CartSessionHelper.AddToCart(HttpContext.Session, cartItem);
             return Json(new { message = $"{product.Name} added to cart." });
         }
 
-        [HttpPost]
-        [Route("api/cart/remove")]
+        [HttpPost("api/cart/remove")]
         public IActionResult Remove([FromBody] ProductRequest request)
         {
             var cart = CartSessionHelper.GetCart(HttpContext.Session);
@@ -83,62 +82,44 @@ namespace Gym_Store.Controllers
                 CartSessionHelper.SaveCart(HttpContext.Session, cart);
                 return Ok(new { message = "Item removed from cart." });
             }
+
             return NotFound(new { message = "Item not found in cart." });
         }
 
-        [HttpPost]
-        [Route("api/cart/updateQuantity")]
+        [HttpPost("api/cart/updateQuantity")]
         public IActionResult UpdateQuantity([FromBody] UpdateCartQuantityRequest request)
         {
             if (request.Quantity < 1)
                 return BadRequest("Quantity must be at least 1.");
 
-            var cart = CartSessionHelper.GetCart(HttpContext.Session); // List<CartItem>
-
+            var cart = CartSessionHelper.GetCart(HttpContext.Session);
             var item = cart.FirstOrDefault(x => x.ProductId == request.ProductId);
+
             if (item == null)
-            {
                 return NotFound("Item not found in cart.");
-            }
 
             item.Quantity = request.Quantity;
-
             CartSessionHelper.SaveCart(HttpContext.Session, cart);
-
             return Ok();
         }
 
-
-        [HttpPost]
-        [Route("api/cart/confirm")]
+        [HttpPost("api/cart/confirm")]
         public async Task<IActionResult> ConfirmPurchase()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
-            {
                 return Json(new { success = false, message = "You must log in to confirm the purchase." });
-            }
 
             var roles = await _userManager.GetRolesAsync(user);
             if (!roles.Contains("Admin") && !roles.Contains("Customer"))
-            {
                 return Forbid();
-            }
 
             var cartItems = CartSessionHelper.GetCart(HttpContext.Session);
             if (cartItems == null || !cartItems.Any())
-            {
                 return Json(new { success = false, message = "Your cart is empty." });
-            }
 
-            // Calculate total amount
-            decimal totalAmount = 0m;
-            foreach (var item in cartItems)
-            {
-                totalAmount += item.Price * item.Quantity;
-            }
+            decimal totalAmount = cartItems.Sum(item => item.Price * item.Quantity);
 
-            // Create Order entity
             var order = new Order
             {
                 UserId = user.Id,
@@ -147,19 +128,14 @@ namespace Gym_Store.Controllers
                 OrderItems = new List<OrderItem>()
             };
 
-            // Add order items & update product stock quantities
             foreach (var item in cartItems)
             {
                 var product = _dbContext.Products.FirstOrDefault(p => p.Id == item.ProductId);
                 if (product == null)
-                {
                     return Json(new { success = false, message = $"Product with ID {item.ProductId} no longer exists." });
-                }
 
                 if (item.Quantity > product.Quantity)
-                {
                     return Json(new { success = false, message = $"Not enough stock for {product.Name}. Available: {product.Quantity}" });
-                }
 
                 product.Quantity -= item.Quantity;
                 _dbContext.Products.Update(product);
@@ -172,14 +148,13 @@ namespace Gym_Store.Controllers
                 });
             }
 
-            // Save order and product quantity changes to DB
             _dbContext.Orders.Add(order);
             await _dbContext.SaveChangesAsync();
 
-            // Clear cart session
             CartSessionHelper.SaveCart(HttpContext.Session, new List<CartItem>());
 
-            return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
+            // ✅ Redirect to Receipt Page
+            return Json(new { success = true, redirectUrl = Url.Action("Receipt", "Cart", new { id = order.Id }) });
         }
 
         [HttpGet]
@@ -187,6 +162,24 @@ namespace Gym_Store.Controllers
         {
             var cart = CartSessionHelper.GetCart(HttpContext.Session);
             return Json(new { count = cart.Sum(c => c.Quantity) });
+        }
+
+        // ✅ Receipt Page (new)
+        [HttpGet]
+        public async Task<IActionResult> Receipt(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+            var order = await _dbContext.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (order == null || (!isAdmin && order.UserId != user.Id))
+                return NotFound();
+
+            return View(order);
         }
     }
 }
