@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Gym_Store.Controllers
 {
@@ -31,9 +34,9 @@ namespace Gym_Store.Controllers
                 return new CartItemViewModel
                 {
                     ProductId = ci.ProductId,
-                    Name = product.Name,
-                    ImageUrl = product.ImageUrl,
-                    Price = product.Price,
+                    Name = product?.Name ?? "Unknown",
+                    ImageUrl = product?.ImageUrl,
+                    Price = product?.Price ?? 0,
                     Quantity = ci.Quantity
                 };
             }).ToList();
@@ -130,7 +133,7 @@ namespace Gym_Store.Controllers
 
             foreach (var item in cartItems)
             {
-                var product = _dbContext.Products.FirstOrDefault(p => p.Id == item.ProductId);
+                var product = await _dbContext.Products.FindAsync(item.ProductId);
                 if (product == null)
                     return Json(new { success = false, message = $"Product with ID {item.ProductId} no longer exists." });
 
@@ -153,7 +156,7 @@ namespace Gym_Store.Controllers
 
             CartSessionHelper.SaveCart(HttpContext.Session, new List<CartItem>());
 
-            // ✅ Redirect to Receipt Page
+            // Redirect to Receipt Page
             return Json(new { success = true, redirectUrl = Url.Action("Receipt", "Cart", new { id = order.Id }) });
         }
 
@@ -163,8 +166,7 @@ namespace Gym_Store.Controllers
             var cart = CartSessionHelper.GetCart(HttpContext.Session);
             return Json(new { count = cart.Sum(c => c.Quantity) });
         }
-
-        // ✅ Receipt Page (new)
+        
         [HttpGet]
         public async Task<IActionResult> Receipt(int id)
         {
@@ -173,11 +175,17 @@ namespace Gym_Store.Controllers
 
             var order = await _dbContext.Orders
                 .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
+                    .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null || (!isAdmin && order.UserId != user.Id))
                 return NotFound();
+
+            if (isAdmin)
+            {
+                var purchaser = await _userManager.FindByIdAsync(order.UserId);
+                ViewData["PurchaserEmail"] = purchaser?.Email ?? "Unknown";
+            }
 
             return View(order);
         }

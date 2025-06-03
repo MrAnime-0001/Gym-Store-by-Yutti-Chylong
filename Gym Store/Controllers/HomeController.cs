@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Gym_Store.Controllers
 {
@@ -16,11 +17,11 @@ namespace Gym_Store.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var productsWithCategory = _dbContext.Products
-                .Include(p => p.Category) // Include category navigation property
-                .ToList();
+            var productsWithCategory = await _dbContext.Products
+                .Include(p => p.Category)
+                .ToListAsync();
 
             var productsByCategory = productsWithCategory
                 .GroupBy(p => p.Category?.Name ?? "Uncategorized")

@@ -83,10 +83,13 @@
                                 <a class="nav-link text-dark" asp-action="Privacy" asp-controller="Home">Privacy</a>
                             </li>
                         </ul>
-
-                        <li class="nav-item">
-                            <partial name="_CartSummary" />
-                        </li>
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <partial name="_CartSummary" />
+                            </li>
+                        }
 
                         @if (User.Identity.IsAuthenticated)
                         {

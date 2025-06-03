@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<Gym_Store.Models.Order>
 @{
     ViewData["Title"] = "Receipts";
+    var userEmails = ViewData["UserEmails"] as Dictionary<string, string>;
+    bool isAdminView = userEmails != null;
 }
 
 <h2>Receipts</h2>
 
-<table class="table">
+<table class="product-table hover-highlight">
     <thead>
         <tr>
             <th>Date</th>
+            @if (isAdminView)
+            {
+                <th>User Email</th>
+            }
             <th>Total</th>
             <th>Actions</th>
         </tr>
@@ -18,12 +24,90 @@
         {
             <tr>
                 <td>@order.OrderDate.ToLocalTime().ToShortDateString()</td>
+                @if (isAdminView)
+                {
+                    <td>@(userEmails.ContainsKey(order.UserId) ? userEmails[order.UserId] : "Unknown")</td>
+                }
                 <td>@order.TotalAmount.ToString("C")</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@order.Id">View</a>
+                    <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@order.Id">View</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-    
+
+<style>
+    .hover-highlight {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px;
+    }
+
+        .hover-highlight:hover {
+            box-shadow: 0 8px 24px rgba(255, 112, 67, 0.3);
+            transform: scale(1.01);
+        }
+
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff8e1;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 1rem auto 2rem auto;
+    }
+
+        .product-table th,
+        .product-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ffe0b2;
+            vertical-align: middle;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .product-table th {
+            background-color: #ffe0b2;
+            color: #3e2723;
+        }
+
+        .product-table td {
+            background-color: #fffde7;
+            color: #3e2723;
+        }
+
+        .product-table tbody tr {
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+            .product-table tbody tr:hover {
+                background-color: #fff3e0;
+                transform: scale(1.005);
+                box-shadow: 0 6px 16px rgba(255, 112, 67, 0.2);
+                cursor: pointer;
+            }
+
+                .product-table tbody tr:hover td {
+                    border-color: #ffab91;
+                }
+
+    .btn-success {
+        background-color: #ff7043;
+        border-color: #ff7043;
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        color: white;
+        font-size: 0.85rem;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-success:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+            box-shadow: 0 0 10px rgba(244, 81, 30, 0.3);
+            text-decoration: none;
+        }
+</style>

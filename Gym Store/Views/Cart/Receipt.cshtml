@@ -1,31 +1,125 @@
 ﻿@model Gym_Store.Models.Order
+@{
+    ViewData["Title"] = "Receipt";
 
-<h2>Receipt</h2>
-<p><strong>Order Date:</strong> @Model.OrderDate.ToLocalTime()</p>
-<p><strong>Total Amount:</strong> $@Model.TotalAmount</p>
+    string purchaserEmail = ViewData["PurchaserEmail"] as string;
+    bool isAdminView = !string.IsNullOrEmpty(purchaserEmail);
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
+<div class="container my-5 p-4" style="background-color: #fffde7; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+    <h2 class="text-center mb-4">Receipt Details</h2>
+
+    @if (isAdminView)
+    {
+        <p class="text-center"><strong>Purchaser Email:</strong> @purchaserEmail</p>
+    }
+
+    <p class="text-center"><strong>Date:</strong> @Model.OrderDate.ToLocalTime().ToString("dd MMM yyyy")</p>
+    <p class="text-center"><strong>Total:</strong> <span style="color: #ff7043; font-weight: bold;">@Model.TotalAmount.ToString("C")</span></p>
+
+    <h4 class="text-center my-4">Items</h4>
+    <table class="product-table hover-highlight mx-auto">
+        <thead>
             <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-                <td>$@item.Price</td>
-                <td>$@(item.Quantity* item.Price)</td>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@(item.Quantity* item.Price).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div class="text-center mt-4">
-    <a href="/" class="btn btn-primary">Go Back to Home</a>
+    <div class="text-center mt-4">
+        <a class="btn btn-success" asp-action="Index">Back to Receipts</a>
+        <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Go to Home</a>
+    </div>
 </div>
+
+<style>
+    .hover-highlight {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px;
+    }
+
+        .hover-highlight:hover {
+            box-shadow: 0 8px 24px rgba(255, 112, 67, 0.3);
+            transform: scale(1.01);
+        }
+
+    .product-table {
+        width: 100%;
+        max-width: 800px;
+        border-collapse: collapse;
+        background-color: #fff8e1;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 0 auto 2rem auto;
+    }
+
+        .product-table th,
+        .product-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ffe0b2;
+            vertical-align: middle;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .product-table th {
+            background-color: #ffe0b2;
+            color: #3e2723;
+        }
+
+        .product-table td {
+            background-color: #fffde7;
+            color: #3e2723;
+        }
+
+        .product-table tbody tr {
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+            .product-table tbody tr:hover {
+                background-color: #fff3e0;
+                transform: scale(1.005);
+                box-shadow: 0 6px 16px rgba(255, 112, 67, 0.2);
+                cursor: pointer;
+            }
+
+                .product-table tbody tr:hover td {
+                    border-color: #ffab91;
+                }
+
+    .btn-success {
+        background-color: #ff7043;
+        border-color: #ff7043;
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        color: white;
+        margin-right: 0.5rem;
+    }
+
+        .btn-success:hover {
+            background-color: #f4511e;
+            border-color: #f4511e;
+            box-shadow: 0 0 10px rgba(244, 81, 30, 0.3);
+        }
+
+    .btn-secondary {
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+    }
+</style>

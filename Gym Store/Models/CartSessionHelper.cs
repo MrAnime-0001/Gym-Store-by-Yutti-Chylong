@@ -1,8 +1,9 @@
-﻿using System;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Gym_Store.Models;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Gym_Store.Models
+namespace Gym_Store.Helpers
 {
     public static class CartSessionHelper
     {
@@ -10,16 +11,12 @@ namespace Gym_Store.Models
 
         public static List<CartItem> GetCart(ISession session)
         {
-            var cartJson = session.GetString(CartKey);
-            return string.IsNullOrEmpty(cartJson)
-                ? new List<CartItem>()
-                : JsonSerializer.Deserialize<List<CartItem>>(cartJson);
+            return session.GetObjectFromJson<List<CartItem>>(CartKey) ?? new List<CartItem>();
         }
 
         public static void SaveCart(ISession session, List<CartItem> cart)
         {
-            var cartJson = JsonSerializer.Serialize(cart);
-            session.SetString(CartKey, cartJson);
+            session.SetObjectAsJson(CartKey, cart);
         }
 
         public static void AddToCart(ISession session, CartItem item)
@@ -35,7 +32,6 @@ namespace Gym_Store.Models
                 cart.Add(item);
             }
 
-            Console.WriteLine(JsonSerializer.Serialize(cart)); // Debugging
             SaveCart(session, cart);
         }
     }
